@@ -1,13 +1,7 @@
 var mongoose = require("mongoose");
 
-var noteSchema = mongoose.Schema({
-  start: Number,
-  duration: Number,
-  pitch: String
-});
-
 var sheetSchema = mongoose.Schema({
-  notes: [noteSchema],
+  notes: [String],
   creator: String,
   collaborators: [String]
 });
