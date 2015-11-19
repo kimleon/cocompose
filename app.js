@@ -15,8 +15,12 @@ db.once('open', function (callback) {
     console.log("database connected");
 });
 
+// Import routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+// Import User model
+var User = require('./models/User');
 
 var app = express();
 
@@ -31,6 +35,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Authentication middleware. This function
+// is called on every request and populates
+// the req.currentUser field with the logged-in
+// user object based off the username provided
+// in the session variable (accessed by the
+// encrypted cookied).
+app.use(function(req, res, next) {
+  if (req.session.username) {
+    User.findByUsername(req.session.username, 
+      function(err, user) {
+        if (user) {
+          req.currentUser = user;
+        } else {
+          req.session.destroy();
+        }
+        next();
+      });
+  } else {
+      next();
+  }
+});
 
 app.use('/', routes);
 app.use('/users', users);
