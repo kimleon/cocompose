@@ -9,5 +9,5 @@ var noteSchema = mongoose.Schema({
 var sheetSchema = mongoose.Schema({
   notes: [noteSchema],
   creator: String,
-  collaborators: String
+  collaborators: [String]
 });
