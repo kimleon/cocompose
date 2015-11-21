@@ -1,0 +1,107 @@
+[33mcommit 203ddc8bb3fa32e27685463a815822b01b0f82ed[m
+Author: Stuart <stuartsf@mit.edu>
+Date:   Thu Nov 19 17:09:33 2015 -0500
+
+    User model, route, controller
+
+[33mcommit 55fa024b7a3734bda49b1aaa34264a8c587e76c7[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Thu Nov 19 14:33:41 2015 -0500
+
+    note schema and methods
+
+[33mcommit a3640ba35ccb55e05e2791bef9efc935114fa9c8[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Thu Nov 19 13:44:55 2015 -0500
+
+    re-design
+
+[33mcommit 38d78810880334de5a61161fc6c6cbc16e756fcd[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Thu Nov 19 13:41:40 2015 -0500
+
+    files for sheets and users, might need notes
+
+[33mcommit a66fdd0dc970489845a0e8bac8bd6cb7865e86af[m
+Author: Lisandro Jimenez <jimenezl@mit.edu>
+Date:   Thu Nov 19 13:21:33 2015 -0500
+
+    change schema
+
+[33mcommit 3c4690be40cce18e0c11e6335fabeb088528c098[m
+Author: Lisandro Jimenez <jimenezl@mit.edu>
+Date:   Thu Nov 19 13:17:46 2015 -0500
+
+    add a bracket
+
+[33mcommit ee1704d3cf3e4957e12c55f4adde652852e45d04[m
+Author: Lisandro Jimenez <jimenezl@mit.edu>
+Date:   Thu Nov 19 13:15:43 2015 -0500
+
+    add sheet schema
+
+[33mcommit d331083daa764be2c8173ce123ec956baf8abdbb[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Thu Nov 19 13:08:23 2015 -0500
+
+    sheet and user js
+
+[33mcommit 67b304f15a62ebc7ee260d1ffc6bcb9390207b86[m
+Author: Jessica Li <jesslli@mit.edu>
+Date:   Wed Nov 18 16:19:54 2015 -0500
+
+    actually added them
+
+[33mcommit 12c945aa58a778c7962edb77e0a49783873a5cfe[m
+Author: Jessica Li <jesslli@mit.edu>
+Date:   Wed Nov 18 16:19:12 2015 -0500
+
+    Added meeting progress report, agenda, and minutes from 11/18
+
+[33mcommit dbf5af2394d6dc04095c9e37b5b2f108a81729b4[m
+Author: Jessica Li <jesslli@mit.edu>
+Date:   Tue Nov 17 12:58:45 2015 -0500
+
+    modified gitignore
+
+[33mcommit 34b1828a55080ef5a5a0ad8586c9afbca5443d0b[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Fri Nov 13 21:31:03 2015 -0500
+
+    teamwork plan and initial design pdfs in Documents folder
+
+[33mcommit ab3f14284295c3b58c1339a229f1b968b771ac7a[m
+Author: Jessica Li <jesslli@mit.edu>
+Date:   Thu Nov 12 14:21:12 2015 -0500
+
+    Correct version of pitch pdf
+
+[33mcommit d99bd1952824edccfbe3ec7cc1916564eae9047b[m
+Author: Jessica Li <jesslli@mit.edu>
+Date:   Thu Nov 12 13:44:54 2015 -0500
+
+    Moved documents into Documents folder
+
+[33mcommit bb27f04dc83050de0d1d4ea27d3d0f66a274c479[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Wed Nov 11 22:44:19 2015 -0500
+
+    added pitch slides
+
+[33mcommit 023bb58b7b55e03f2b0cd939f77632eb66f70a6a[m
+Author: unknown <Stu@Stu-PC.mit.edu>
+Date:   Mon Nov 9 02:27:10 2015 -0500
+
+    Team Contract
+
+[33mcommit b260eec517b3c71fb31ac66ff8baf5bbf06b9c34[m
+Author: kimleon <kimleon@mit.edu>
+Date:   Fri Nov 6 19:05:35 2015 -0500
+
+    initial express app
+
+[33mcommit 5f4787025ee37f9157ea0aa617cc52e56a55b7a3[m
+Author: Tony Tran <tuantran@mit.edu>
+Date:   Fri Nov 6 13:22:04 2015 -0500
+
+    Initial commit
