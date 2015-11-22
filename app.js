@@ -41,6 +41,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret : '6170', resave : true, saveUninitialized : true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // commented out until user is implemented
