@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		ctx.canvas.width = CELL_SIZE_X * controller.dimX;
 		ctx.canvas.height = CELL_SIZE_Y * controller.dimY;
 
+		for (var i = controller.dimX - 1; i >= 0; i--) {
+			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
+		};
 		var noteCells = controller.returnNoteCells();
 		noteCells.map(function (coords) {
 			drawCell(coords[0],coords[1]);
 		});
 
-		for (var i = controller.dimX - 1; i >= 0; i--) {
-			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
-		};
 	};
 
 	isDown = false;
