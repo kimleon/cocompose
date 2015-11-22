@@ -25,6 +25,8 @@ var users = require('./routes/users');
 
 // Import User model
 var User = require('./models/user');
+// Import Note model
+var Note = require('./models/note');
 
 var app = express();
 
@@ -98,6 +100,23 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function (socket) {
   socket.on('note', function (data) {
+    Note.updateTimes(data.user, data.note.pitch, data.note.time, data.note.isNote,
+      function(err, note) {
+        if (err) {
+          Note.createNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
+            function(err, newNote) {
+              if (err) {
+                console.log(err.msg)
+                // res.send({success: false, message: err.msg});
+              } 
+          });   
+          console.log("created new note")       
+          // res.send({success: true, note: newNote});
+        } else {
+          console.log("updated note")
+          // res.send({success: true, note: note});
+        }
+    });
     console.log(data);
   });
 });
