@@ -119,6 +119,16 @@ io.on('connection', function (socket) {
     });
     console.log(data);
   });
+
+  socket.on('request_sheet', function (data) {
+    Note.getAllNotes(data.user, function (err, notes) {
+      if (err) {
+        console.log(err.msg);
+      } else {
+        socket.emit("supply_sheet", notes);
+      };
+    });
+  });
 });
 
 module.exports = app;

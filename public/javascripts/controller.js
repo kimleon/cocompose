@@ -20,11 +20,12 @@ var Controller = function () {
 		    console.log(data); 
 		    noteData = [];
 		    for (var i = data.length - 1; i >= 0; i--) {
-		    	noteData.push([keyToCoord(data[i][0]),data[i]]);
+		    	console.log(data[i]);
+		    	noteData.push([keyToCoord(data[i].pitch),data[i].time]);
 		    };
-		    setNewSheet(39,200,noteData);
+		    that.setNewSheet(36,200,noteData);
 		});
-		model = SheetModel(39,200,[]);
+		model = SheetModel(36,200,[]);
 		that.dimX = model.dimX;
 		that.dimY = model.dimY;
 		model.addSubscriber(that.notifySubscribers);
@@ -48,8 +49,8 @@ var Controller = function () {
 
 	var keyToCoord = function (key) {
 		pitches = {"C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,"F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11}
-		pitch = pitches[key.substring(0, str.length - 1)];
-		octave = key.substring(str.length - 1, str.length);
+		pitch = pitches[key.substring(0, key.length - 1)];
+		octave = key.substring(key.length - 1, key.length);
 		return 12*octave + pitch;
 	};
 
