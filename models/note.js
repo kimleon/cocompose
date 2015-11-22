@@ -72,10 +72,11 @@ noteSchema.statics.updateTimes = function(sheetID, pitch, time, isNote, callback
 /*
   returns all notes
 */
-noteSchema.statics.getAllNotes = function(callback) {
+noteSchema.statics.getAllNotes = function(sheetID, callback) {
   Note.find({
     isNote: true,
-  }, function(err, allNotes) {
+    sheetID: sheetID }, 
+    function(err, allNotes) {
       if (err) {
         callback({msg: err.message});
       } else {
