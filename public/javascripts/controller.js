@@ -18,7 +18,11 @@ var Controller = function () {
 		socket.emit('request_sheet', { user: '1' });
 		socket.on('supply_sheet', function (data) {
 		    console.log(data); 
-		    setNewSheet(39,200,data);
+		    noteData = [];
+		    for (var i = data.length - 1; i >= 0; i--) {
+		    	noteData.push([keyToCoord(data[i][0]),data[i]]);
+		    };
+		    setNewSheet(39,200,noteData);
 		});
 		model = SheetModel(39,200,[]);
 		that.dimX = model.dimX;
@@ -42,6 +46,13 @@ var Controller = function () {
 		return pitch+octave;
 	};
 
+	var keyToCoord = function (key) {
+		pitches = {"C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,"F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11}
+		pitch = pitches[key.substring(0, str.length - 1)];
+		octave = key.substring(str.length - 1, str.length);
+		return 12*octave + pitch;
+	};
+
 	/** setNewSheet - Clears the sheet and adds any required notes
 	* param dimX - x dimension of the sheet
 	* param dimY - y dimension of the sheet
@@ -56,13 +67,15 @@ var Controller = function () {
 	};
 
 	that.setCell = function (coordX, coordY, value) {
-		model.updateCell(coordX,coordY,value);
-		var note = {
-			pitch: coordToKey(coordX),
-			time: coordY,
-			isNote: value,
-		}
-		notifyServer(note);
+		if (model.noteAtCell(coordX,coordY) != value){
+			model.updateCell(coordX,coordY,value);
+			var note = {
+				pitch: coordToKey(coordX),
+				time: coordY,
+				isNote: value,
+			}
+			notifyServer(note);
+		};
 	};
 
 	var subscribers = []
