@@ -17,6 +17,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
 
+		var drawLine = function (startCoord, endCoord) {
+			ctx.beginPath();
+	      	ctx.moveTo(startCoord[0], startCoord[1]);
+	      	ctx.lineTo(endCoord[0], endCoord[1]);
+	      	ctx.strokeStyle = '#CFCFCF';
+	      	ctx.stroke();
+		};
+
+
 		ctx.clearRect(0, 0, canvas.width, canvas.height); //clear the canvas
 		ctx.canvas.width = CELL_SIZE_X * controller.dimX;
 		ctx.canvas.height = CELL_SIZE_Y * controller.dimY;
@@ -25,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		noteCells.map(function (coords) {
 			drawCell(coords[0],coords[1]);
 		});
+		
+		for (var i = controller.dimX - 1; i >= 0; i--) {
+			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
+		};
 	};
 
 	isDown = false;

@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', function () {
 				drawCell(i,j);
 			};
 		};
+		var drawLine = function (startCoord, endCoord) {
+			ctx.beginPath();
+	      	ctx.moveTo(startCoord[0], startCoord[1]);
+	      	ctx.lineTo(endCoord[0], endCoord[1]);
+	      	ctx.strokeStyle = '#CFCFCF';
+	      	ctx.stroke();
+		};
+		for (var i = controller.dimX - 1; i >= 0; i--) {
+			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
+		};
 	};
 
 	//Whenever the Sheet gets updated in the controller/model, redraw it
