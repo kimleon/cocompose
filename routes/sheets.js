@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Tweet = require('../models/sheet');
+var Sheet = require('../models/sheet');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

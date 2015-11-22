@@ -20,7 +20,7 @@ db.once('open', function (callback) {
 });
 
 // Import routes
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var users = require('./routes/users');
 var sheets = require('./routes/sheets');
 
@@ -50,23 +50,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 // user object based off the username provided
 // in the session variable (accessed by the
 // encrypted cookied).
-// app.use(function(req, res, next) {
-//   if (req.session.username) {
-//     User.findByUsername(req.session.username, 
-//       function(err, user) {
-//         if (user) {
-//           req.currentUser = user;
-//         } else {
-//           req.session.destroy();
-//         }
-//         next();
-//       });
-//   } else {
-//       next();
-//   }
-// });
+app.use(function(req, res, next) {
+  if (req.session.username) {
+    User.findByUsername(req.session.username, 
+      function(err, user) {
+        if (user) {
+          req.currentUser = user;
+        } else {
+          req.session.destroy();
+        }
+        next();
+      });
+  } else {
+      next();
+  }
+});
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 app.use('/sheets', sheets);
 
