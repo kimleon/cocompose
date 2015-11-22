@@ -17,10 +17,8 @@ var Controller = function () {
 		socket = io.connect('http://localhost');
 		socket.emit('request_sheet', { user: '1' });
 		socket.on('supply_sheet', function (data) {
-		    console.log(data); 
 		    noteData = [];
 		    for (var i = data.length - 1; i >= 0; i--) {
-		    	console.log(data[i]);
 		    	noteData.push([keyToCoord(data[i].pitch),data[i].time]);
 		    };
 		    that.setNewSheet(36,200,noteData);
@@ -109,6 +107,24 @@ var Controller = function () {
 	**/
 	that.returnNoteCells = function () {
 		return model.returnNoteCells();
+	};
+
+	that.returnListOfMidiNotes = function () {
+		var notes = [];
+		var prevIsNote = false;
+		var lastNoteStart = 0;
+		for (var i = 0; i < that.dimX; i++) {
+			var pitch = coordToKey(i);
+			for (var j = 0; j < that.dimY; j++) {
+				if (!prevIsNote && that.noteAtCell(i,j)) {
+					lastNoteStart = j;
+				} else if (prevIsNote && !that.noteAtCell(i,j)){
+					notes.push({pitch: pitch, start: lastNoteStart, end: j});
+				};
+				prevIsNote = that.noteAtCell(i,j);
+			};
+		};
+		return notes;
 	};
 
 	init();
