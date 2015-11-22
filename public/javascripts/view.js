@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Clears the Sheet and polls the controller to redraw it.
 	var redrawSheet = function () {
-
+		var colors = {0:"red",1:"blue",2:"green",3:"yellow",4:"purple",5:"brown",6:"magenta",7:"darkblue",8:"orange",9:"olive",10:"maroon",11:"lightblue"}
 		var drawCell = function (coordX,coordY) {
-			ctx.fillStyle = "black";
+			ctx.fillStyle = colors[coordX%12];
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
 
