@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+server.listen(80);
 
 var mongoose = require('mongoose');
 // Connect to either the MONGOLAB_URI or to the local database.
@@ -20,7 +24,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 // Import User model
-var User = require('./models/User');
+var User = require('./models/user');
 
 var app = express();
 
@@ -92,5 +96,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
+io.on('connection', function (socket) {
+  socket.on('note', function (data) {
+    console.log(data);
+  });
+});
 
 module.exports = app;

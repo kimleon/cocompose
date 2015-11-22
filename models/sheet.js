@@ -18,7 +18,7 @@ sheetSchema.statics.createSheet = function(creator, callback) {
   deletes the sheet corresponding to the given id
   NOT USED IN MVP
 */
-noteSchema.statics.deleteSheet = function(id, callback) {
+sheetSchema.statics.deleteSheet = function(id, callback) {
   Sheet.findOneAndRemove({'_id' : id},
     function(err, record) {
       if (err) {
