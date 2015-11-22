@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Clears the Sheet and polls the controller to redraw it.
 	var redrawSheet = function () {
-		var colors = {0:"red",1:"blue",2:"green",3:"yellow",4:"purple",5:"brown",6:"magenta",7:"darkblue",8:"orange",9:"olive",10:"maroon",11:"lightblue"}
+		var colors = {0:"#e74c3c",1:"#2980b9",2:"#e08283",3:"#f1c40f",4:"#8e44ad",5:"#16a085",6:"#d2527f",7:"#19b5fe",8:"#f27935",9:"#2ecc71",10:"#86e2d5",11:"#9a12b3"}
 		var drawCell = function (coordX,coordY) {
 			ctx.fillStyle = colors[coordX%12];
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		noteCells.map(function (coords) {
 			drawCell(coords[0],coords[1]);
 		});
-		
+
 		for (var i = controller.dimX - 1; i >= 0; i--) {
 			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
 		};
