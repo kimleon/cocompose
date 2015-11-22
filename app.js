@@ -52,6 +52,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // in the session variable (accessed by the
 // encrypted cookied).
 app.use(function(req, res, next) {
+  console.log("Current User");
+  console.log(req.session.username)
   if (req.session.username) {
     User.findByUsername(req.session.username, 
       function(err, user) {
