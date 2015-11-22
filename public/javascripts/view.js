@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		noteCells.map(function (coords) {
 			drawCell(coords[0],coords[1]);
 		});
+		for (var i = (controller.dimY/16) - 1; i >= 0; i--) {
+			drawLine([0,i*CELL_SIZE_Y*16],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*16]);
+		};
 
 	};
 

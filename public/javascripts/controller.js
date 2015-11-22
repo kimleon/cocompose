@@ -6,6 +6,9 @@
 var Controller = function () {
 	var that = Object.create(Controller.prototype);
 
+	var SHEET_WIDTH = 36;
+	var SHEET_HEIGHT = 208;
+
 	that.dimX = null;
 	that.dimY = null;
 
@@ -23,9 +26,9 @@ var Controller = function () {
 		    	console.log(data[i]);
 		    	noteData.push([keyToCoord(data[i].pitch),data[i].time]);
 		    };
-		    that.setNewSheet(36,200,noteData);
+		    that.setNewSheet(SHEET_WIDTH,SHEET_HEIGHT,noteData);
 		});
-		model = SheetModel(36,200,[]);
+		model = SheetModel(SHEET_WIDTH,SHEET_HEIGHT,[]);
 		that.dimX = model.dimX;
 		that.dimY = model.dimY;
 		model.addSubscriber(that.notifySubscribers);
