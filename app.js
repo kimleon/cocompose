@@ -109,7 +109,7 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function (socket) {
   socket.on('note', function (data) {
-    Note.updateTimes(data.user, data.note.pitch, data.note.time, data.note.isNote,
+    Note.updateNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
       function(err, note) {
         if (err) {
           Note.createNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
