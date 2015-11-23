@@ -39,10 +39,6 @@ var loadSheetsPage = function() {
 	});
 };
 
-var loadUserPage = function() {
-	$.get('')
-}
-
 var loadSheetPage = function() {
 	$.get('/sheet', function(response) {
 		loadPage('sheet', { 
