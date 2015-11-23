@@ -32,16 +32,16 @@ a {
 	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
 	background-color:#599bb3;
-	-moz-border-radius:28px;
-	-webkit-border-radius:28px;
-	border-radius:28px;
+	-moz-border-radius:24px;
+	-webkit-border-radius:24px;
+	border-radius:24px;
 	border:1px solid #29668f;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:17px;
-	padding:16px 31px;
+	font-size:14px;
+	padding:12px 25px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
 }
