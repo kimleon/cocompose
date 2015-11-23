@@ -39,9 +39,9 @@ var loadSheetsPage = function() {
 	});
 };
 
-var loadSheetPage = function() {
-	$.get('/sheet', function(response) {
-		loadPage('sheet', { 
+var loadSheetPage = function(id) {
+	$.get('/sheets/'+id, function(response) {
+		loadPage('notes', { notes: response.content.sheet,
 							 currentUser: currentUser });
 	});
 }

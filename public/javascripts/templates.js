@@ -3,6 +3,9 @@
 templates['index'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div id=\"homepage\">\r\n  <h1>CoCompose</h1>\r\n  <p>You must be signed in to continue.</p>\r\n  <button id=\"signin-btn\">Sign in</button>\r\n  <button id=\"register-btn\">Register</button>\r\n</div>\r\n";
 },"useData":true});
+templates['notes'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"notes\">\r\n 	<canvas id=\"piano\" width=\"150\" height=\"150\"></canvas>\r\n	<br>\r\n	<canvas id=\"sheet\" width=\"150\" height=\"150\"></canvas>\r\n	<button type=\"button\" id=\"playButton\">play/pause</button>\r\n\r\n	<br><br>\r\n</div>\r\n";
+},"useData":true});
 templates['register'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 
@@ -21,9 +24,9 @@ templates['sheet'] = template({"compiler":[7,">= 4.0.0"],"main":function(contain
 
   return "<div class=\"sheet\" data-sheet-id="
     + alias4(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"_id","hash":{},"data":data}) : helper)))
-    + ">\r\n  <p>"
+    + ">\r\n  <a href=\"#\" class=\"go-to-sheet\">"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</p>\r\n</div>\r\n";
+    + "</a>\r\n</div>\r\n";
 },"useData":true});
 templates['sheets'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;

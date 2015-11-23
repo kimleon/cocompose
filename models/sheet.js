@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var Note = require("./note")
 
 var sheetSchema = mongoose.Schema({
   name: String,
@@ -35,14 +36,22 @@ sheetSchema.statics.deleteSheet = function(id, callback) {
   Given an ID, returns the unique freet attached to that ID from the database.
 */
 sheetSchema.statics.getSheet = function(sheetId,callback) {
-  Sheet.findById(sheetId,function(err,sheet) {
+  Note.getAllNotes(sheetId, function(err,notes) {
     if (err) {
       callback({msg: err.message});
     }
     else {
-      callback(null, sheet);
+      callback(null, notes);
     }
   })
+  // Sheet.findById(sheetId,function(err,sheet) {
+  //   if (err) {
+  //     callback({msg: err.message});
+  //   }
+  //   else {
+  //     callback(null, sheet);
+  //   }
+  // })
 }
 
 /**

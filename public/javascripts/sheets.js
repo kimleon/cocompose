@@ -29,7 +29,7 @@
       var id = item.data('sheet-id');
       $.get(
           '/sheets/' + id,
-          {content: content}
+          {id: id}
       ).done(function(response) {
           loadSheetPage();
       }).fail(function(responseObject) {
