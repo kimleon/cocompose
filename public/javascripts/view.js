@@ -78,6 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	//Whenever the Sheet gets updated in the controller/model, redraw it
 	controller.addSubscriber(redrawSheet);
 
+	$("#playButton").click(function(){
+		controller.getMidiString();
+	});
+
 	redrawSheet();
 
 });

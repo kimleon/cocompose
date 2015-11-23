@@ -23,6 +23,7 @@ db.once('open', function (callback) {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var sheets = require('./routes/sheets');
+var midiConv = require('./routes/midiConv');
 
 // Import User model
 var User = require('./models/user');
@@ -131,6 +132,11 @@ io.on('connection', function (socket) {
         socket.emit("supply_sheet", notes);
       };
     });
+  });
+
+  socket.on('convert_sheet', function (data) {
+    var midiString = midiConv(data);
+    socket.emit("supply_midi", midiString);
   });
 });
 
