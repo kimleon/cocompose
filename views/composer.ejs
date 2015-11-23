@@ -9,13 +9,39 @@
 	<canvas id="piano" width="150" height="150"></canvas>
 	<br>
 	<canvas id="sheet" width="150" height="150"></canvas>
+	<button type="button" id="playButton">play/pause</button>
 
 	<br><br>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
 	<script src="./javascripts/model.js" charset="utf-8"></script>
 	<script src="./javascripts/controller.js" charset="utf-8"></script>
 	<script src="./javascripts/view.js" charset="utf-8"></script>
 	<script src="./javascripts/piano.js" charset="utf-8"></script>
+
+	<!-- MIDI js files -->
+	<script src="./javascripts/inc/shim/Base64.js" type="text/javascript"></script>
+	<script src="./javascripts/inc/shim/Base64binary.js" type="text/javascript"></script>
+	<script src="./javascripts/inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+	<script src="./javascripts/inc/shim/WebMIDIAPI.js" type="text/javascript"></script>
+	<!-- jasmid package -->
+	<script src="./javascripts/inc/jasmid/stream.js"></script>
+	<script src="./javascripts/inc/jasmid/midifile.js"></script>
+	<script src="./javascripts/inc/jasmid/replayer.js"></script>
+	<!-- midi.js package -->
+	<script src="./javascripts/midijs/midi/audioDetect.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/gm.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/loader.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/plugin.audiotag.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/plugin.webaudio.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/plugin.webmidi.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/player.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/midi/synesthesia.js" type="text/javascript"></script>
+	<!-- utils -->
+	<script src="./javascripts/midijs/util/dom_request_xhr.js" type="text/javascript"></script>
+	<script src="./javascripts/midijs/util/dom_request_script.js" type="text/javascript"></script>
+	<!-- the Entertainer -->
+	<script src="./javascripts/midijs/theentertainer.js" type="text/javascript"></script>
 
 </body>
 </html>

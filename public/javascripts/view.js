@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	};
 
 	isDown = false;
+	isClicked = false;
+	clickedColumn = 0;
 	mouseListener = function(evt){
 		if (isDown) {
 			var mouseCoordsToMouseCoords = function (mouseX,mouseY) {
@@ -56,17 +58,24 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 
 			cellCoords = mouseCoordsToMouseCoords(evt.clientX,evt.clientY);
-			if (evt.button === 0){
-				controller.setCell(cellCoords[0], cellCoords[1], true);
-			} else if (evt.button === 2) {
-				controller.setCell(cellCoords[0], cellCoords[1], false);
+			if (isClicked){
+				clickedColumn = cellCoords[0];
+			};
+			if (cellCoords[0] === clickedColumn){
+				if (evt.button === 0){
+					controller.setCell(cellCoords[0], cellCoords[1], true);
+				} else if (evt.button === 2) {
+					controller.setCell(cellCoords[0], cellCoords[1], false);
+				};
 			};
 		};
 	};
 
 	canvas.addEventListener("mousedown", function(evt){
 		isDown = true;
+		isClicked = true;
 		mouseListener(evt);
+		isClicked = false;
 	});
 	canvas.addEventListener("mouseup", function(evt){
 		isDown = false;
@@ -77,6 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Whenever the Sheet gets updated in the controller/model, redraw it
 	controller.addSubscriber(redrawSheet);
+
+	$("#playButton").click(function(){
+		controller.getMidiString();
+	});
 
 	redrawSheet();
 

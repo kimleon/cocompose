@@ -23,6 +23,7 @@ db.once('open', function (callback) {
 var index = require('./routes/index');
 var users = require('./routes/users');
 var sheets = require('./routes/sheets');
+var midiConv = require('./routes/midiConv');
 
 // Import User model
 var User = require('./models/user');
@@ -108,7 +109,7 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function (socket) {
   socket.on('note', function (data) {
-    Note.updateTimes(data.user, data.note.pitch, data.note.time, data.note.isNote,
+    Note.updateNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
       function(err, note) {
         if (err) {
           Note.createNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
@@ -136,6 +137,11 @@ io.on('connection', function (socket) {
         socket.emit("supply_sheet", notes);
       };
     });
+  });
+
+  socket.on('convert_sheet', function (data) {
+    var midiString = midiConv(data);
+    socket.emit("supply_midi", midiString);
   });
 });
 

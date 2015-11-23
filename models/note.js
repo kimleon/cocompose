@@ -21,7 +21,7 @@ noteSchema.statics.createNote = function(sheetID, pitch, time, isNote, callback)
 /*
   updates the note's start and end times
 */
-noteSchema.statics.updateTimes = function(sheetID, pitch, time, isNote, callback) {
+noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback) {
   Note.findOneAndUpdate({'sheetID': sheetID, 'time' : time, 'pitch': pitch}, 
     {$set: { isNote: isNote }},
     {safe: true, upsert: true},

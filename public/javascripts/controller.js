@@ -40,9 +40,9 @@ var Controller = function () {
 		console.log(cell);
 	};
 
+	BASE_OCTAVE = 4
 	var coordToKey = function (coordX) {
 		pitches = {0:"C",1:"C#",2:"D",3:"D#",4:"E",5:"F",6:"F#",7:"G",8:"G#",9:"A",10:"A#",11:"B"}
-		BASE_OCTAVE = 0;
 		octave = BASE_OCTAVE + ~~(coordX/12);
 		pitch = pitches[coordX%12];
 		return pitch+octave;
@@ -51,7 +51,7 @@ var Controller = function () {
 	var keyToCoord = function (key) {
 		pitches = {"C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,"F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11}
 		pitch = pitches[key.substring(0, key.length - 1)];
-		octave = key.substring(key.length - 1, key.length);
+		octave = key.substring(key.length - 1, key.length) - BASE_OCTAVE;
 		return 12*octave + pitch;
 	};
 
@@ -122,12 +122,28 @@ var Controller = function () {
 				if (!prevIsNote && that.noteAtCell(i,j)) {
 					lastNoteStart = j;
 				} else if (prevIsNote && !that.noteAtCell(i,j)){
-					notes.push({pitch: pitch, start: lastNoteStart, end: j});
+					notes.push({pitch: pitch, isNoteStart: true, time:lastNoteStart});
+					notes.push({pitch: pitch, isNoteStart: false, time:j});
 				};
 				prevIsNote = that.noteAtCell(i,j);
 			};
 		};
 		return notes;
+	};
+
+	that.getMidiString = function (){
+		socket.emit('convert_sheet', that.returnListOfMidiNotes());
+		socket.on('supply_midi', function (data) {
+			console.log(data);
+		    MIDI.loadPlugin({
+				soundfontUrl: "./javascripts/soundfont/",
+				onsuccess: function() {
+					player = MIDI.Player;
+					player.timeWarp = 1; // speed the song is played back
+					player.loadFile("data:audio/midi;base64,"+data, player.start);
+				}
+			});
+		});
 	};
 
 	init();
