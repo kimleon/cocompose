@@ -31,6 +31,10 @@ var loadSheetsPage = function() {
 	});
 };
 
+var loadUserPage = function() {
+	$.get('')
+}
+
 // When the document is ready, checks to make sure the user is logged in, and if so sets the currentUser field to the logged in user
 $(document).ready(function() {
 	$.get('/users/current', function(response) {
