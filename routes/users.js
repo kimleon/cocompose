@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var utils = require('../utils/utils');
 var User = require('../models/user');
 var sheet = require('../models/sheet');
 
@@ -92,6 +93,7 @@ router.post('/', function(req, res) {
 
   User.createNewUser(req.body.username, req.body.password, 
     function(err) {
+      console.log(err);
       if (err) {
         if (err.taken) {
           utils.sendErrResponse(res, 400, 'That username is already taken!');

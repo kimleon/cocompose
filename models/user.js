@@ -8,10 +8,19 @@ var userSchema = mongoose.Schema({
 /*
   creates a new user with the given params
 */
-userSchema.statics.createUser = function(username, password) {
-  User.create({ username: username,
-  				password: password });
-  callback(null);
+userSchema.statics.createNewUser = function(username, password, callback) {
+  console.log("login");
+  console.log(username);
+  console.log(password);
+  this.userExists(username, function(err,user) {
+    if (err) {
+      User.create({username: username, password: password});
+      callback(null);
+    }
+    else {
+      callback({ taken: true });
+    }
+  });
 }
 
 /**
