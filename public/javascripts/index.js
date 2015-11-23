@@ -1,3 +1,10 @@
+// See handlebarsjs.com for details. Here, we register
+// a re-usable fragment of HTML called a "partial" which
+// may be inserted somewhere in the DOM using a function
+// call instead of manual insertion of an HTML String.
+Handlebars.registerPartial('sheet', Handlebars.templates['sheet']);
+
+
 // Global variable set when a user is logged in. Note
 // that this is unsafe on its own to determine this: we 
 // must still verify every server request. This is just 
@@ -11,6 +18,7 @@ currentUser = undefined;
 
 var loadPage = function(template, data) {
 	data = data || {};
+	console.log(data);
 	$('#main-container').html(Handlebars.templates[template](data));
 };
 
@@ -26,13 +34,20 @@ var loadHomePage = function() {
 // Loads the page to display sheets
 var loadSheetsPage = function() {
 	$.get('/sheets', function(response) {
-		loadPage('sheets', { 
+		loadPage('sheets', { sheets: response.content.sheets,
 							 currentUser: currentUser });
 	});
 };
 
 var loadUserPage = function() {
 	$.get('')
+}
+
+var loadSheetPage = function() {
+	$.get('/sheet', function(response) {
+		loadPage('sheet', { 
+							 currentUser: currentUser });
+	});
 }
 
 // When the document is ready, checks to make sure the user is logged in, and if so sets the currentUser field to the logged in user
