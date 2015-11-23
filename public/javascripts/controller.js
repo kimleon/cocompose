@@ -136,7 +136,7 @@ var Controller = function () {
 		socket.on('supply_midi', function (data) {
 			console.log(data);
 		    MIDI.loadPlugin({
-				soundfontUrl: "./javascripts/soundfont/",
+				soundfontUrl: "../javascripts/soundfont/",
 				onsuccess: function() {
 					player = MIDI.Player;
 					player.timeWarp = 1; // speed the song is played back

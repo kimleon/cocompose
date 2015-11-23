@@ -29,6 +29,8 @@ var midiConv = require('./routes/midiConv');
 var User = require('./models/user');
 // Import Note model
 var Note = require('./models/note');
+// Import Sheet model
+var Sheet = require('./models/sheet');
 
 var app = express();
 

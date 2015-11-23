@@ -25,9 +25,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:sheet', function(req, res, next) {
-  console.log(req.sheet);
+  console.log("routes for individual res")
+  // res.render('composer', function(err, html) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //   else {
+  //     console.log("no error");
+  //     console.log(html);
+  //     res.send(html);
+  //   }
+  // });
+  res.render('composer');
+  // res.sendFile('../views/composer.ejs', {root: __dirname});
+  console.log("Made it");
+  // console.log(req.sheet);
+  // console.log(req);
+  // console.log(res);
   // res.render('composer');
-  utils.sendSuccessResponse(res, req.sheet);
+  // utils.sendSuccessResponse(res, req.sheet);
 });
 
 router.post('/', function(req, res) {

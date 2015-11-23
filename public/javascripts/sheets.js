@@ -21,11 +21,12 @@
       var item = $(this).parent();
       var id = item.data('sheet-id');
       $.get(
-          '/sheets/' + id,
-          {id: id}
+          '/sheets/' + id
       ).done(function(response) {
-          loadSheetPage();
-          // response.render('composer');
+        // console.log(response);
+        // response.render('composer')
+        // loadSheetPage();
+        // response.render('composer');
       }).fail(function(responseObject) {
           var response = $.parseJSON(responseObject.responseText);
           $('.error').text(response.err);
