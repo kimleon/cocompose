@@ -20,9 +20,9 @@ var generateMidi = function (listOfNotes) {
 	for (var i = 0; i < listOfNotes.length; i++) {
 		var currentNote = listOfNotes[i];
 		if (currentNote.isNoteStart){
-			track.noteOn(0, currentNote.pitch, 16*(currentNote.time - prevTime));
+			track.noteOn(0, currentNote.pitch, 32*(currentNote.time - prevTime));
 		} else {
-			track.noteOff(0, currentNote.pitch, 16*(currentNote.time - prevTime));
+			track.noteOff(0, currentNote.pitch, 32*(currentNote.time - prevTime));
 		};
 		prevTime = currentNote.time;
 	};

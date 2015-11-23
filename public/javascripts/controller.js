@@ -17,7 +17,7 @@ var Controller = function () {
 
 	var init = function () {
 		sheetData = null
-		socket = io.connect('http://localhost');
+		socket = io.connect('/');
 		socket.emit('request_sheet', { user: '1' });
 		socket.on('supply_sheet', function (data) {
 		    noteData = [];
@@ -40,7 +40,7 @@ var Controller = function () {
 		console.log(cell);
 	};
 
-	BASE_OCTAVE = 4
+	BASE_OCTAVE = 3
 	var coordToKey = function (coordX) {
 		pitches = {0:"C",1:"C#",2:"D",3:"D#",4:"E",5:"F",6:"F#",7:"G",8:"G#",9:"A",10:"A#",11:"B"}
 		octave = BASE_OCTAVE + ~~(coordX/12);
