@@ -14,11 +14,13 @@ var Controller = function () {
 
 	var model = null;
 	var socket = null;
+	var currentURL = window.location.href;
+	var sheetID = currentURL.split("/").pop();
 
 	var init = function () {
 		sheetData = null
 		socket = io.connect('/');
-		socket.emit('request_sheet', { user: '1' });
+		socket.emit('request_sheet', { user: sheetID });
 		socket.on('supply_sheet', function (data) {
 		    noteData = [];
 		    for (var i = data.length - 1; i >= 0; i--) {
@@ -34,7 +36,7 @@ var Controller = function () {
 
 	var notifyServer = function (cell) {
 		socket.emit('note', {
-			user: '1',
+			user: sheetID,
 			note: cell
 		});
 		console.log(cell);
