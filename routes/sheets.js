@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 router.get('/:sheet', function(req, res, next) {
   console.log(req.sheet);
   res.render('composer');
-  // utils.sendSuccessResponse(res, req.sheet);
+  utils.sendSuccessResponse(res, req.sheet);
 });
 
 router.post('/', function(req, res) {
