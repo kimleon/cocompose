@@ -33,7 +33,7 @@ sheetSchema.statics.deleteSheet = function(id, callback) {
 }
 
 /**
-  Given an ID, returns the unique freet attached to that ID from the database.
+  Given an ID, returns the unique sheet attached to that ID from the database.
 */
 sheetSchema.statics.getSheet = function(sheetId,callback) {
   Note.getAllNotes(sheetId, function(err,notes) {
@@ -56,7 +56,7 @@ sheetSchema.statics.getSheet = function(sheetId,callback) {
 
 /**
   Given a username and list of that user's following list, returns a dictionary of 
-  the user's freets and refreets, as well as those he/she is following, and all others.
+  the user's sheets.
 */
 sheetSchema.statics.getSheets = function(username,callback) {
   sheets=[];
