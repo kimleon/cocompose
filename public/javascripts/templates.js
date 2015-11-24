@@ -36,7 +36,7 @@ templates['sheets'] = template({"1":function(container,depth0,helpers,partials,d
 
   return "<div id=\"sheets\">\n	<p>Welcome, "
     + container.escapeExpression(((helper = (helper = helpers.currentUser || (depth0 != null ? depth0.currentUser : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"currentUser","hash":{},"data":data}) : helper)))
-    + " (<a href=\"#\" id=\"logout-link\">logout</a>)</p>\n	<h1>CoCompose</h1>\n	<div>\n      <div class=\"error\"></div>\n      <label for=\"new-sheet-input\">Add a new sheet:</label>\n      <input type=\"text\" id=\"new-sheet-input\" />\n      <button id=\"submit-new-sheet\" class='tealButton'>Add</button>\n    </div>\n	<h1>My Sheets</h1>\n\n"
+    + " (<a href=\"#\" id=\"logout-link\">logout</a>)</p>\n	<h1>CoCompose Music Library</h1>\n	<div>\n      <div class=\"error\"></div>\n      <label for=\"new-sheet-input\">Add a new sheet:</label>\n      <input type=\"text\" id=\"new-sheet-input\" />\n      <button id=\"submit-new-sheet\" class='tealButton'>Add</button>\n    </div>\n	<h1>My Sheets</h1>\n\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.sheets : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "</div>\n";
 },"usePartial":true,"useData":true});

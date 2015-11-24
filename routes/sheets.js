@@ -3,6 +3,39 @@ var router = express.Router();
 var Sheet = require('../models/sheet');
 var utils = require('../utils/utils');
 
+/*
+  Require authentication on ALL access to /sheets/*
+  Clients which are not logged in will receive a 403 error code.
+*/
+var requireAuthentication = function(req, res, next) {
+  if (!req.currentUser) {
+    utils.sendErrResponse(res, 403, 'Must be logged in to use this feature.');
+  } else {
+    next();
+  }
+};
+
+/*
+  Require ownership whenever accessing a particular sheet
+  This means that the client accessing the resource must be logged in
+  as the user that originally created the sheet. Clients who are not owners 
+  of this particular resource will receive a 404.
+  Why 404? We don't want to distinguish between sheets that don't exist at all
+  and sheets that exist but don't belong to the client. This way a malicious client
+  that is brute-forcing urls should not gain any information.
+*/
+var requireOwnership = function(req, res, next) {
+  if (!(req.currentUser.username === req.sheet.creator)) {
+    utils.sendErrResponse(res, 404, 'Resource not found.');
+  } else {
+    next();
+  }
+};
+
+// Register the middleware handlers above.
+router.all('/:sheet', requireAuthentication);
+// router.all('/:freet', requireOwnership);
+
 router.param('sheet', function(req, res, next, sheetId) {
   Sheet.getSheet(sheetId, function(err, sheet) {
     if (sheet) {

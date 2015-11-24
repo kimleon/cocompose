@@ -54,14 +54,10 @@ sheetSchema.statics.getSheet = function(sheetId,callback) {
   // })
 }
 
-/**
-  Given a username and list of that user's following list, returns a dictionary of 
-  the user's sheets.
-*/
 sheetSchema.statics.getSheets = function(username,callback) {
   sheets=[];
-  Sheet.find({},function(err,sheets) {
-      console.log(sheets);
+  Sheet.find({$or:[{creator: username}, {collaborators: username}]},function(err,sheets) {
+      // console.log(sheets);
       if (err) {
         callback({msg: err.message});
       }
