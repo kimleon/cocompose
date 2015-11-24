@@ -112,13 +112,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	$("#submit-new-collaborator").click(function() {
 		var collab = $('#add-collaborator-input').val();
+		var currentURL = window.location.href;
+		var sheetID = currentURL.split("/").pop();
 		if (collab.trim().length === 0) {
 			alert('Input must not be empty');
 		 	return;
 		}
 		console.log("Collab: ", collab);
 		$.post(
-			'/sheets/addCollab',
+			'../sheets/' + sheetID + '/addCollab',
 			{ collab: collab }
 		).done(function(response) {
 			console.log('done!');
@@ -127,6 +129,21 @@ document.addEventListener('DOMContentLoaded', function () {
 			$('.error').text(response.err);
 		});
 	});
+
+	// $(document).on('click', '#submit-new-collaborator', function(evt) {
+ //      var collab = $('#add-collaborator-input').val();
+ //      console.log(collab);
+ //      $.ajax({
+ //        url: '/sheets/addCollab',
+ //        type: 'POST'
+ //      }).done(function(response) {
+ //          console.log('done!');
+ //      }).fail(function(responseObject) {
+ //          var response = $.parseJSON(responseObject.responseText);
+ //          $('.error').text(response.err);
+ //          console.log(response.err);
+ //      });
+ //  	});
 
 	redrawSheet();
 

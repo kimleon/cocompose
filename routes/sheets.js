@@ -40,11 +40,28 @@ var requireAccess = function(req, res, next) {
   });
 };
 
+var requireOwnership = function(req, res, next) {
+  sheetID = req.params.sheet;
+  user = req.currentUser.username;
+  Sheet.getSheetInfo(sheetID, function(err, sheet) {
+    if (sheet) {
+      console.log(sheet.collaborators.indexOf(req.currentUser.username));
+      if (!(user === sheet.creator)) {
+        utils.sendErrResponse(res, 404, 'Resource not found.');
+      } else {
+        next();
+      }
+    }
+  });
+}
+
 // Register the middleware handlers above.
 router.all('*', requireAuthentication);
 router.all('/:sheet', requireAccess);
+router.all('/:sheet/addCollab', requireOwnership);
 
 router.param('sheet', function(req, res, next, sheetId) {
+  req.sheetID = sheetId;
   Sheet.getSheet(sheetId, function(err, sheet) {
     if (sheet) {
       req.sheet = sheet;
@@ -66,25 +83,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:sheet', function(req, res, next) {
-  console.log("routes for individual res")
-  // res.render('composer', function(err, html) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   else {
-  //     console.log("no error");
-  //     console.log(html);
-  //     res.send(html);
-  //   }
-  // });
   res.render('composer');
-  // res.sendFile('../views/composer.ejs', {root: __dirname});
-  console.log("Made it");
-  // console.log(req.sheet);
-  // console.log(req);
-  // console.log(res);
-  // res.render('composer');
-  // utils.sendSuccessResponse(res, req.sheet);
 });
 
 router.post('/', function(req, res) {
@@ -97,11 +96,11 @@ router.post('/', function(req, res) {
     });
 });
 
-router.post('/addCollab', function(req, res) {
+router.post('/:sheet/addCollab', function(req, res) {
     console.log("here");
-    console.log(req.body.user);
-    console.log("routes");
-    Sheet.addCollaborator(req.body.collab, '56536b9599e428b71a1b1bc2', function() {
+    console.log(req.body.collab);
+    console.log(req.sheetID);
+    Sheet.addCollaborator(req.body.collab, req.sheetID, function() {
       console.log("here");
     });
 });

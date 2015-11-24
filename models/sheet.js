@@ -44,14 +44,6 @@ sheetSchema.statics.getSheet = function(sheetId, callback) {
       callback(null, notes);
     }
   })
-  // Sheet.findById(sheetId,function(err,sheet) {
-  //   if (err) {
-  //     callback({msg: err.message});
-  //   }
-  //   else {
-  //     callback(null, sheet);
-  //   }
-  // })
 }
 
 /**
@@ -94,7 +86,6 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
       callback({msg: err.message});
     }
     else {
-      console.log(sheet);
       callback(null, sheet);
     }
   });
