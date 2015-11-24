@@ -44,6 +44,13 @@ a {
   color: #00B7FF;
 }
 
+#libraryLink {
+    position:fixed;
+    margin-left: 925px;
+    top: 0;
+    z-index: 100;
+}
+
 #sheet {
 	margin-top: 38px;
 }

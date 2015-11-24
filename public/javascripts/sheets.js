@@ -23,10 +23,7 @@
       $.get(
           '/sheets/' + id
       ).done(function(response) {
-        // console.log(response);
-        // response.render('composer')
-        // loadSheetPage();
-        // response.render('composer');
+
       }).fail(function(responseObject) {
           var response = $.parseJSON(responseObject.responseText);
           $('.error').text(response.err);
