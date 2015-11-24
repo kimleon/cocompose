@@ -1,5 +1,43 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 a {
@@ -18,12 +56,15 @@ a {
 }
 
 #playButton {
-	margin-top: 100px;
-	margin-left: 20px;
-	position:fixed;
-	outline: 0;
-  top:0;
-  z-index:100;
+    margin-top: 100px;
+    margin-left: 20px;
+    position:fixed;
+    outline: 0;
+    top:0;
+    z-index:100;
+}
+
+.tealButton {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
 	background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
 	background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
