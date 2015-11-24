@@ -18,23 +18,31 @@ var requireAuthentication = function(req, res, next) {
 /*
   Require ownership whenever accessing a particular sheet
   This means that the client accessing the resource must be logged in
-  as the user that originally created the sheet. Clients who are not owners 
+  as the user that originally created the sheet or be on the list of
+  collaborators for that sheet. Clients who are not owners 
   of this particular resource will receive a 404.
   Why 404? We don't want to distinguish between sheets that don't exist at all
   and sheets that exist but don't belong to the client. This way a malicious client
   that is brute-forcing urls should not gain any information.
 */
 var requireOwnership = function(req, res, next) {
-  if (!(req.currentUser.username === req.sheet.creator)) {
-    utils.sendErrResponse(res, 404, 'Resource not found.');
-  } else {
-    next();
-  }
+  sheetID = req.sheet[0].sheetID;
+  user = req.currentUser.username;
+  Sheet.getSheetInfo(sheetID, function(err, sheet) {
+    if (sheet) {
+      console.log(sheet.collaborators.indexOf(req.currentUser.username));
+      if (!(user === sheet.creator || sheet.collaborators.indexOf(user) > -1)) {
+        utils.sendErrResponse(res, 404, 'Resource not found.');
+      } else {
+        next();
+      }
+    }
+  });
 };
 
 // Register the middleware handlers above.
-router.all('/:sheet', requireAuthentication);
-// router.all('/:freet', requireOwnership);
+router.all('*', requireAuthentication);
+router.all('/:sheet', requireOwnership);
 
 router.param('sheet', function(req, res, next, sheetId) {
   Sheet.getSheet(sheetId, function(err, sheet) {

@@ -33,10 +33,10 @@ sheetSchema.statics.deleteSheet = function(id, callback) {
 }
 
 /**
-  Given an ID, returns the unique sheet attached to that ID from the database.
+  Given an ID, returns the notes attached to that sheet and sheetID from the database
 */
-sheetSchema.statics.getSheet = function(sheetId,callback) {
-  Note.getAllNotes(sheetId, function(err,notes) {
+sheetSchema.statics.getSheet = function(sheetId, callback) {
+  Note.getAllNotes(sheetId, function(err, notes) {
     if (err) {
       callback({msg: err.message});
     }
@@ -54,7 +54,26 @@ sheetSchema.statics.getSheet = function(sheetId,callback) {
   // })
 }
 
-sheetSchema.statics.getSheets = function(username,callback) {
+/**
+  Given a sheetID, returns the sheet's key information, such as its
+  name, creator, and list of collaborators
+*/
+sheetSchema.statics.getSheetInfo = function(sheetID, callback) {
+  Sheet.findById(sheetID, function(err, sheet) {
+    if (err) {
+      callback({msg: err.message});
+    }
+    else {
+      callback(null, sheet);
+    }
+  });
+}
+
+/**
+  Given a username, returns all sheets that user has access to (i.e. sheets that
+  user has created and sheets that user is a collaborator on)
+*/
+sheetSchema.statics.getSheets = function(username, callback) {
   sheets=[];
   Sheet.find({$or:[{creator: username}, {collaborators: username}]},function(err,sheets) {
       // console.log(sheets);
@@ -65,6 +84,10 @@ sheetSchema.statics.getSheets = function(username,callback) {
         callback(null, {sheets: sheets})
       }
   })
+}
+
+sheetSchema.statics.containsCollaborator = function(username, sheetID, callback) {
+  
 }
 
 // When we 'require' this model in another file (e.g. routes),
