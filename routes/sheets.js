@@ -16,7 +16,7 @@ var requireAuthentication = function(req, res, next) {
 };
 
 /*
-  Require ownership whenever accessing a particular sheet
+  Require access whenever accessing a particular sheet
   This means that the client accessing the resource must be logged in
   as the user that originally created the sheet or be on the list of
   collaborators for that sheet. Clients who are not owners 
@@ -25,8 +25,8 @@ var requireAuthentication = function(req, res, next) {
   and sheets that exist but don't belong to the client. This way a malicious client
   that is brute-forcing urls should not gain any information.
 */
-var requireOwnership = function(req, res, next) {
-  sheetID = req.sheet[0].sheetID;
+var requireAccess = function(req, res, next) {
+  sheetID = req.params.sheet;
   user = req.currentUser.username;
   Sheet.getSheetInfo(sheetID, function(err, sheet) {
     if (sheet) {
@@ -42,7 +42,7 @@ var requireOwnership = function(req, res, next) {
 
 // Register the middleware handlers above.
 router.all('*', requireAuthentication);
-router.all('/:sheet', requireOwnership);
+router.all('/:sheet', requireAccess);
 
 router.param('sheet', function(req, res, next, sheetId) {
   Sheet.getSheet(sheetId, function(err, sheet) {
@@ -94,6 +94,15 @@ router.post('/', function(req, res) {
       } else {
         utils.sendSuccessResponse(res);
       }
+    });
+});
+
+router.post('/addCollab', function(req, res) {
+    console.log("here");
+    console.log(req.body.user);
+    console.log("routes");
+    Sheet.addCollaborator(req.body.collab, '56536b9599e428b71a1b1bc2', function() {
+      console.log("here");
     });
 });
 

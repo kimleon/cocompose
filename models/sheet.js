@@ -83,11 +83,21 @@ sheetSchema.statics.getSheets = function(username, callback) {
       else {
         callback(null, {sheets: sheets})
       }
-  })
+  });
 }
 
-sheetSchema.statics.containsCollaborator = function(username, sheetID, callback) {
-  
+sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
+  Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
+    console.log(err);
+    console.log(sheet);
+    if (err) {
+      callback({msg: err.message});
+    }
+    else {
+      console.log(sheet);
+      callback(null, sheet);
+    }
+  });
 }
 
 // When we 'require' this model in another file (e.g. routes),

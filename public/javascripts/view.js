@@ -91,6 +91,43 @@ document.addEventListener('DOMContentLoaded', function () {
 		controller.getMidiString();
 	});
 
+	// $(document).on('click', '#submit-new-collaborator', function(evt) {
+	// 	console.log('submitting new collaborator');
+	// 	var content = $('#add-collaborator-input').val();
+	// 	if (content.trim().length === 0) {
+	// 		alert('Input must not be empty');
+	// 	 	return;
+	// 	}
+	// 	console.log("here: ", content)
+		// $.post(
+		// 	'/sheets',
+		// 	{ content: content }
+		// ).done(function(response) {
+		// 	loadHomePage();
+		// }).fail(function(responseObject) {
+		// 	var response = $.parseJSON(responseObject.responseText);
+		// 	$('.error').text(response.err);
+		// });
+	// });
+
+	$("#submit-new-collaborator").click(function() {
+		var collab = $('#add-collaborator-input').val();
+		if (collab.trim().length === 0) {
+			alert('Input must not be empty');
+		 	return;
+		}
+		console.log("Collab: ", collab);
+		$.post(
+			'/sheets/addCollab',
+			{ collab: collab }
+		).done(function(response) {
+			console.log('done!');
+		}).fail(function(responseObject) {
+			var response = $.parseJSON(responseObject.responseText);
+			$('.error').text(response.err);
+		});
+	});
+
 	redrawSheet();
 
 });
