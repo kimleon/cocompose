@@ -25,7 +25,7 @@ describe('Note', function() {
           assert.deepEqual(notesList.length, 0);
       });
       Note.createNote('testSheet', 'C5', 20, true, 
-        function(err, tweet) {
+        function(err, note) {
           if (err) {
             assert.isTrue(false);
           }
@@ -60,4 +60,4 @@ describe('Note', function() {
     });
   }); 
 
-}); // End describe Tweet.
+}); // End describe Note.
