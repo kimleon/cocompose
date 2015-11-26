@@ -137,14 +137,15 @@ var Controller = function () {
 		socket.emit('convert_sheet', that.returnListOfMidiNotes());
 		socket.on('supply_midi', function (data) {
 			console.log(data);
-		    MIDI.loadPlugin({
-				soundfontUrl: "../javascripts/soundfont/",
-				onsuccess: function() {
-					player = MIDI.Player;
-					player.timeWarp = 1; // speed the song is played back
-					player.loadFile("data:audio/midi;base64,"+data, player.start);
-				}
-			});
+			that.playMidi(data);
+		});
+	};
+
+	that.playMidi = function(midiString) {
+		var startMeasure = $('#playback-start-measure-input').val();
+		that.player.loadFile("data:audio/midi;base64,"+midiString, function () {
+			that.player.currentTime = ((startMeasure - 1) * 2000 + 250) * that.player.timeWarp;
+			that.player.start();
 		});
 	};
 

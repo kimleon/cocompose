@@ -7,7 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	canvas.style.border = "black 1px solid";
 	var ctx = canvas.getContext('2d');
 
+	pianoKeys = PianoKeys();
+	// pianoKeys.toggleKeyColor(1,true);
+
 	var controller = Controller();
+
+	var drawLine = function (startCoord, endCoord) {
+      	color = '#CFCFCF';
+      	drawLineWithColor(startCoord, endCoord, color);
+	};
+
+	var drawLineWithColor = function (startCoord, endCoord, color) {
+		ctx.beginPath();
+      	ctx.moveTo(startCoord[0], startCoord[1]);
+      	ctx.lineTo(endCoord[0], endCoord[1]);
+      	ctx.strokeStyle = color;
+      	ctx.stroke();
+	};
 
 	// Clears the Sheet and polls the controller to redraw it.
 	var redrawSheet = function () {
@@ -17,29 +33,34 @@ document.addEventListener('DOMContentLoaded', function () {
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
 
-		var drawLine = function (startCoord, endCoord) {
-			ctx.beginPath();
-	      	ctx.moveTo(startCoord[0], startCoord[1]);
-	      	ctx.lineTo(endCoord[0], endCoord[1]);
-	      	ctx.strokeStyle = '#CFCFCF';
-	      	ctx.stroke();
-		};
 
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height); //clear the canvas
 		ctx.canvas.width = CELL_SIZE_X * controller.dimX;
 		ctx.canvas.height = CELL_SIZE_Y * controller.dimY;
-
+		// ctx.fillStyle = "#FFFFFF";
+		// ctx.fillRect(0, 0, canvas.width, canvas.height); //clear the canvas
+		//Draw piano lines
 		for (var i = controller.dimX - 1; i >= 0; i--) {
 			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
 		};
+		//Draw submeasure lines
+		for (var i = (controller.dimY/4) - 1; i >= 0; i--) {
+			drawLineWithColor([0,i*CELL_SIZE_Y*4],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*4], '#E3E3E3');
+		};
+		//Draw notes
 		var noteCells = controller.returnNoteCells();
 		noteCells.map(function (coords) {
 			drawCell(coords[0],coords[1]);
 		});
+		//Draw measure lines
 		for (var i = (controller.dimY/16) - 1; i >= 0; i--) {
-			drawLine([0,i*CELL_SIZE_Y*16],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*16]);
+			drawLineWithColor([0,i*CELL_SIZE_Y*16],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*16], '#ADADAD');
 		};
+		// //Draw submeasure lines
+		// for (var i = (controller.dimY/8) - 1; i >= 0; i--) {
+		// 	drawLineWithColor([0,i*CELL_SIZE_Y*8],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*8], '#C8C8C8');
+		// };
 
 	};
 
@@ -84,10 +105,38 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Listens for mouseclick to notify controller
 	canvas.addEventListener("mousemove", mouseListener,false);
 
+	controller.player = null;
+	MIDI.loadPlugin({
+		soundfontUrl: "../javascripts/soundfont/",
+		onsuccess: function() {
+			controller.player = MIDI.Player;
+			controller.player.timeWarp = 1; // speed the song is played back
+			// player.loadFile("data:audio/midi;base64,"+data, player.start);
+			controller.player.addListener(function(data) {
+				var pianoKey = data.note - 48;
+				var noteOn = true;
+				if (data.velocity === 0) {
+					noteOn = false;
+				};
+				pianoKeys.toggleKeyColor(pianoKey, noteOn);
+			});
+			controller.player.setAnimation(function (data, element) {
+				console.log(data);
+				redrawSheet();
+				if (data.now < data.end){
+					pixelsPerUnitTime  = (CELL_SIZE_Y * 4) / .5;
+					currentCursorPosition = ((data.now - .2505) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
+					drawLineWithColor([0,currentCursorPosition],[CELL_SIZE_X*controller.dimX,currentCursorPosition], '#181A7A');
+				};
+			});
+		}
+	});
+
 	//Whenever the Sheet gets updated in the controller/model, redraw it
 	controller.addSubscriber(redrawSheet);
 
 	$("#playButton").click(function(){
+		controller.player.timeWarp = 120.0/($("#BPM-input").val());
 		controller.getMidiString();
 	});
 
