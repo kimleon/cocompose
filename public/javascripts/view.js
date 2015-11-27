@@ -148,15 +148,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			alert('Input must not be empty');
 		 	return;
 		}
-		console.log("Collab: ", collab);
 		$.post(
 			'../sheets/' + sheetID + '/addCollab',
 			{ collab: collab }
 		).done(function(response) {
-			console.log('done!');
 			$('.error').text("");
 		}).fail(function(responseObject) {
-			console.log("fail");
 			var response = $.parseJSON(responseObject.responseText);
 			console.log(response.err);
 			$('.error').text(response.err);

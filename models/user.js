@@ -27,7 +27,6 @@ userSchema.statics.createNewUser = function(username, password, callback) {
 userSchema.statics.userExists = function(username, callback) {
   User.findOne({'username': username},function(err,user) {
     if (err || !user) {
-      console.log(err);
       callback({message: 'No such user!'});
     }
     else {
@@ -57,7 +56,7 @@ userSchema.statics.verifyPassword = function(username,candidatepw,callback) {
 
 /**
   Accepts a username and if it exists in the database, returns the dictionary
-  of username, password, and list of users being followed. If it does not exist in the database,
+  of username and password. If it does not exist in the database,
   return error message of "No such user!".
 */
 userSchema.statics.findByUsername = function(username,callback) {

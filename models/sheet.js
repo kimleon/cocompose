@@ -19,17 +19,19 @@ sheetSchema.statics.createSheet = function(creator, name, callback) {
 }
 
 /*
-  deletes the sheet corresponding to the given id
-  NOT USED IN MVP
+  Given a sheetID and username, if the username is the creator of the sheet 
+  associated with the sheetID, removes the sheet from the database. If the username 
+  is a collaborator on the sheet associated with the sheetID, removes the username 
+  from the list of collaborators for the sheet.
 */
-sheetSchema.statics.deleteSheet = function(id, username, callback) {
+sheetSchema.statics.deleteSheet = function(sheetID, username, callback) {
   Sheet.findById(sheetID, function(err, sheet) {
     if (err) {
       callback({msg: err.message});
     }
     else {
       if (username===sheet.creator) {
-        Sheet.findOneAndRemove({'_id' : id},
+        Sheet.findOneAndRemove({'_id' : sheetID},
           function(err, record) {
             if (err) {
               callback({msg: err.message});
@@ -107,6 +109,13 @@ sheetSchema.statics.getSheets = function(username, callback) {
   });
 }
 
+/**
+  Given a username, adds the username to the list of collaborators for the sheet 
+  associated with the given sheetID under the following conditions:
+
+  - username must exist
+  - username must not already have access to the sheet
+*/
 sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
   User.userExists(username,function(err,user) {
     if (err) {
