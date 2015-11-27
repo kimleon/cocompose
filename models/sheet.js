@@ -113,14 +113,24 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
       callback({message: err.message});
     }
     else {
-      Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
+      Sheet.findById(sheetID, function(err, sheet) {
         if (err) {
           callback({message: err.message});
         }
-        else {
-          callback(null);
+        else if (username===sheet.creator || contains(sheet.collaborators,username)) {
+          callback({message: username+' already has access to this sheet!'});
         }
-      });
+        else {
+          Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
+            if (err) {
+              callback({message: err.message});
+            }
+            else {
+              callback(null);
+            }
+          });
+        }
+      })
     }
   })
 }
