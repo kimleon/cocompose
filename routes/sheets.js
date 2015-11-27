@@ -141,7 +141,7 @@ router.post('/', function(req, res) {
 router.post('/:sheet/addCollab', function(req, res) {
     Sheet.addCollaborator(req.body.collab, req.sheetID, function(err) {
       if (err) {
-        utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+        utils.sendErrResponse(res, 403, err.message);
       } else {
         utils.sendSuccessResponse(res);
       }

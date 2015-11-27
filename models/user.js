@@ -9,9 +9,6 @@ var userSchema = mongoose.Schema({
   creates a new user with the given params
 */
 userSchema.statics.createNewUser = function(username, password, callback) {
-  console.log("login");
-  console.log(username);
-  console.log(password);
   this.userExists(username, function(err,user) {
     if (err) {
       User.create({username: username, password: password});
@@ -30,7 +27,8 @@ userSchema.statics.createNewUser = function(username, password, callback) {
 userSchema.statics.userExists = function(username, callback) {
   User.findOne({'username': username},function(err,user) {
     if (err || !user) {
-      callback({msg: 'No such user!'});
+      console.log(err);
+      callback({message: 'No such user!'});
     }
     else {
       callback(null, user);

@@ -27,7 +27,7 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
     {safe: true, upsert: true},
     function(err, foundNote) {
       if (err) {
-        callback({msg: err.message});
+        callback({message: err.message});
       } else{
         callback(null, foundNote);
       } 
@@ -45,7 +45,7 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
 //     {safe: true, upsert: true},
 //     function(err, foundNote) {
 //       if (err) {
-//         callback({msg: err.message});
+//         callback({message: err.message});
 //       } else{
 //         callback(null, foundNote);
 //       } 
@@ -62,7 +62,7 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
 //     {safe: true, upsert: true},
 //     function(err, foundNote) {
 //       if (err) {
-//         callback({msg: err.message});
+//         callback({message: err.message});
 //       } else{
 //         callback(null, foundNote);
 //       } 
@@ -78,7 +78,7 @@ noteSchema.statics.getAllNotes = function(sheetID, callback) {
     sheetID: sheetID }, 
     function(err, allNotes) {
       if (err) {
-        callback({msg: err.message});
+        callback({message: err.message});
       } else {
         callback(null, allNotes);
       } 

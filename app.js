@@ -89,6 +89,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log("dev");
     console.log(err);
     res.status(err.status || 500);
     res.render('error', {
@@ -101,6 +102,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log("app");
   console.log(err);
   res.status(err.status || 500);
   res.render('error', {
@@ -117,7 +119,7 @@ io.on('connection', function (socket) {
           Note.createNote(data.sheetID, data.note.pitch, data.note.time, data.note.isNote,
             function(err, newNote) {
               if (err) {
-                console.log(err.msg)
+                console.log(err.message)
                 // res.send({success: false, message: err.msg});
               } 
           });   
@@ -138,7 +140,7 @@ io.on('connection', function (socket) {
   socket.on('request_sheet', function (data) {
     Note.getAllNotes(data.sheetID, function (err, notes) {
       if (err) {
-        console.log(err.msg);
+        console.log(err.message);
       } else {
         socket.emit("supply_sheet", notes);
       };

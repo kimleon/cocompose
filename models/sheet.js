@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
-var Note = require("./note")
+var Note = require("./note");
+var User = require("./user");
 
 var sheetSchema = mongoose.Schema({
   name: String,
@@ -107,14 +108,21 @@ sheetSchema.statics.getSheets = function(username, callback) {
 }
 
 sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
-  Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
+  User.userExists(username,function(err,user) {
     if (err) {
-      callback({msg: err.message});
+      callback({message: err.message});
     }
     else {
-      callback(null);
+      Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
+        if (err) {
+          callback({message: err.message});
+        }
+        else {
+          callback(null);
+        }
+      });
     }
-  });
+  })
 }
 
 /**
