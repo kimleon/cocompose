@@ -30,17 +30,17 @@ templates['sheet'] = template({"compiler":[7,">= 4.0.0"],"main":function(contain
 templates['sheets'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = container.invokePartial(partials.sheet,depth0,{"name":"sheet","data":data,"indent":"\t  ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
+  return ((stack1 = container.invokePartial(partials.sheet,depth0,{"name":"sheet","data":data,"indent":"\t\t  ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {};
 
   return "<div id=\"sheets\">\r\n	<p>Welcome, "
     + container.escapeExpression(((helper = (helper = helpers.currentUser || (depth0 != null ? depth0.currentUser : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"currentUser","hash":{},"data":data}) : helper)))
-    + " (<a href=\"#\" id=\"logout-link\">logout</a>)</p>\r\n	<h1>CoCompose Music Library</h1>\r\n	<div>\r\n      <div class=\"error\"></div>\r\n      <label for=\"new-sheet-input\">Add a new sheet:</label>\r\n      <input type=\"text\" id=\"new-sheet-input\" />\r\n      <button id=\"submit-new-sheet\" class='tealButton'>Add</button>\r\n    </div>\r\n	<h1>My Sheets</h1>\r\n\r\n"
+    + " (<a href=\"#\" id=\"logout-link\">logout</a>)</p>\r\n	<h1>CoCompose Music Library</h1>\r\n	<div>\r\n      <div class=\"error\"></div>\r\n      <label for=\"new-sheet-input\">Add a new sheet:</label>\r\n      <input type=\"text\" id=\"new-sheet-input\" />\r\n      <button id=\"submit-new-sheet\" class='tealButton'>Add</button>\r\n    </div>\r\n    <div class=\"left\">\r\n		<h1>My Sheets</h1>\r\n\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.own_sheets : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\r\n	<h1>Sheets Shared With Me</h1>\r\n\r\n"
+    + "	</div>\r\n\r\n	<div class=\"right\">\r\n		<h1>Sheets Shared With Me</h1>\r\n\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.collab_sheets : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "</div>\r\n";
+    + "	</div>\r\n</div>\r\n";
 },"usePartial":true,"useData":true});
 templates['signin'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;

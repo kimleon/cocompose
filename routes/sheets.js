@@ -74,8 +74,6 @@ router.param('sheet', function(req, res, next, sheetId) {
 
 router.get('/', function(req, res, next) {
 	Sheet.getSheets(req.currentUser.username, function(err, sheets) {
-    console.log("routes");
-    console.log(sheets);
 		if (err) {
 		utils.sendErrResponse(res, 500, 'An unknown error occurred.');
 		} else {

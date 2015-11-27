@@ -7,15 +7,19 @@
       <input type="text" id="new-sheet-input" />
       <button id="submit-new-sheet" class='tealButton'>Add</button>
     </div>
-	<h1>My Sheets</h1>
+    <div class="left">
+		<h1>My Sheets</h1>
 
-	{{#each own_sheets}}
-	  {{> sheet}}
-	{{/each}}
+		{{#each own_sheets}}
+		  {{> sheet}}
+		{{/each}}
+	</div>
 
-	<h1>Sheets Shared With Me</h1>
+	<div class="right">
+		<h1>Sheets Shared With Me</h1>
 
-	{{#each collab_sheets}}
-	  {{> sheet}}
-	{{/each}}
+		{{#each collab_sheets}}
+		  {{> sheet}}
+		{{/each}}
+	</div>
 </div>

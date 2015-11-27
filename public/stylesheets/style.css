@@ -110,3 +110,13 @@ a {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
 }
+
+.left {
+  width: 50%;
+  float: left;
+}
+
+.right {
+  width: 50%;
+  float: left;
+}
