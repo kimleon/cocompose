@@ -20,13 +20,17 @@ var Controller = function () {
 	var init = function () {
 		sheetData = null
 		socket = io.connect('/');
-		socket.emit('request_sheet', { user: sheetID });
+		socket.emit('request_sheet', { sheetID: sheetID });
+		socket.emit('join_sheet', { sheetID: sheetID });
 		socket.on('supply_sheet', function (data) {
 		    noteData = [];
 		    for (var i = data.length - 1; i >= 0; i--) {
 		    	noteData.push([keyToCoord(data[i].pitch),data[i].time]);
 		    };
 		    that.setNewSheet(SHEET_WIDTH,SHEET_HEIGHT,noteData);
+		});
+		socket.on('note_update', function (data) {
+			recieveNoteUpdate(data);
 		});
 		model = SheetModel(SHEET_WIDTH,SHEET_HEIGHT,[]);
 		that.dimX = model.dimX;
@@ -36,10 +40,15 @@ var Controller = function () {
 
 	var notifyServer = function (cell) {
 		socket.emit('note', {
-			user: sheetID,
+			sheetID: sheetID,
 			note: cell
 		});
 		console.log(cell);
+	};
+
+	var recieveNoteUpdate = function (data) {
+		that.setCell(keyToCoord(data.note.pitch), data.note.time, data.note.isNote);
+		that.notifySubscribers();
 	};
 
 	BASE_OCTAVE = 3

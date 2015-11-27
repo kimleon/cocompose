@@ -111,28 +111,32 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function (socket) {
   socket.on('note', function (data) {
-    Note.updateNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
+    Note.updateNote(data.sheetID, data.note.pitch, data.note.time, data.note.isNote,
       function(err, note) {
         if (err) {
-          Note.createNote(data.user, data.note.pitch, data.note.time, data.note.isNote,
+          Note.createNote(data.sheetID, data.note.pitch, data.note.time, data.note.isNote,
             function(err, newNote) {
               if (err) {
                 console.log(err.msg)
                 // res.send({success: false, message: err.msg});
               } 
           });   
-          console.log("created new note")       
-          // res.send({success: true, note: newNote});
+          console.log("created new note");
+          socket.broadcast.to(data.sheetID).emit("note_update", data);
         } else {
-          console.log("updated note")
-          // res.send({success: true, note: note});
+          console.log("updated note");
+          socket.broadcast.to(data.sheetID).emit("note_update", data);
         }
     });
     console.log(data);
   });
 
+  socket.on('join_sheet', function (data) {
+    socket.join(data.sheetID);
+  });
+
   socket.on('request_sheet', function (data) {
-    Note.getAllNotes(data.user, function (err, notes) {
+    Note.getAllNotes(data.sheetID, function (err, notes) {
       if (err) {
         console.log(err.msg);
       } else {
