@@ -21,14 +21,34 @@ sheetSchema.statics.createSheet = function(creator, name, callback) {
   deletes the sheet corresponding to the given id
   NOT USED IN MVP
 */
-sheetSchema.statics.deleteSheet = function(id, callback) {
-  Sheet.findOneAndRemove({'_id' : id},
-    function(err, record) {
-      if (err) {
-        callback({msg: err.message});
-      } else {
-        callback(null, record);
-      } 
+sheetSchema.statics.deleteSheet = function(id, username, callback) {
+  Sheet.findById(sheetID, function(err, sheet) {
+    if (err) {
+      callback({msg: err.message});
+    }
+    else {
+      if (username===sheet.creator) {
+        Sheet.findOneAndRemove({'_id' : id},
+          function(err, record) {
+            if (err) {
+              callback({msg: err.message});
+            } else {
+              callback(null);
+            } 
+        });
+      }
+      else {
+        new_collaborators=[];
+        sheet.collaborators.forEach(function(collaborator) {
+          if (collaborator!=username) {
+            new_collaborators.push(collaborator);
+          }
+        })
+        sheet.collaborators=new_collaborators;
+        sheet.save();
+        callback(null);
+      }
+    }
   });
 }
 
