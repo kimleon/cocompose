@@ -86,14 +86,22 @@ sheetSchema.statics.getSheetInfo = function(sheetID, callback) {
   user has created and sheets that user is a collaborator on)
 */
 sheetSchema.statics.getSheets = function(username, callback) {
-  sheets=[];
-  Sheet.find({$or:[{creator: username}, {collaborators: username}]},function(err,sheets) {
-      // console.log(sheets);
+  own_sheets=[];
+  collab_sheets=[];
+  Sheet.find({},function(err,sheets) {
       if (err) {
         callback({msg: err.message});
       }
       else {
-        callback(null, {sheets: sheets})
+        sheets.forEach(function(sheet) {
+          if (sheet.creator===username) {
+            own_sheets.push(sheet);
+          }
+          else if (contains(sheet.collaborators,username)) {
+            collab_sheets.push(sheet);
+          }
+        })
+        callback(null, {own_sheets: own_sheets, collab_sheets: collab_sheets})
       }
   });
 }
@@ -109,6 +117,19 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
       callback(null, sheet);
     }
   });
+}
+
+/**
+  Helper function to check if the "obj" is in the array "a".
+*/
+function contains(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i] === obj) {
+           return true;
+       }
+    }
+    return false;
 }
 
 // When we 'require' this model in another file (e.g. routes),

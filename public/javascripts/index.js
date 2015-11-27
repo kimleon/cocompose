@@ -33,17 +33,14 @@ var loadHomePage = function() {
 // Loads the page to display sheets
 var loadSheetsPage = function() {
 	$.get('/sheets', function(response) {
-		loadPage('sheets', { sheets: response.content.sheets,
+		console.log("index");
+		console.log(response.content.own_sheets);
+		console.log(response.content.collab_sheets);
+		loadPage('sheets', { own_sheets: response.content.own_sheets,
+							 collab_sheets: response.content.collab_sheets,
 							 currentUser: currentUser });
 	});
 };
-
-var loadSheetPage = function(id) {
-	$.get('/sheets/'+id, function(response) {
-		loadPage('notes', { notes: response.content.sheet,
-							 currentUser: currentUser });
-	});
-}
 
 // When the document is ready, checks to make sure the user is logged in, and if so sets the currentUser field to the logged in user
 $(document).ready(function() {

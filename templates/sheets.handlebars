@@ -9,7 +9,13 @@
     </div>
 	<h1>My Sheets</h1>
 
-	{{#each sheets}}
+	{{#each own_sheets}}
+	  {{> sheet}}
+	{{/each}}
+
+	<h1>Sheets Shared With Me</h1>
+
+	{{#each collab_sheets}}
 	  {{> sheet}}
 	{{/each}}
 </div>
