@@ -29,4 +29,18 @@
           $('.error').text(response.err);
       });
   });
+
+  $(document).on('click', '.delete-sheet', function(evt) {
+      var item = $(this).parent();
+      var id = item.data('sheet-id');
+      $.ajax({
+          url: '/sheets/' + id,
+          type: 'DELETE'
+      }).done(function(response) {
+          item.remove();
+      }).fail(function(responseObject) {
+          var response = $.parseJSON(responseObject.responseText);
+          $('.error').text(response.err);
+      });
+  });
 })();

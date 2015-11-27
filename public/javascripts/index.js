@@ -18,7 +18,6 @@ currentUser = undefined;
 
 var loadPage = function(template, data) {
 	data = data || {};
-	console.log(data);
 	$('#main-container').html(Handlebars.templates[template](data));
 };
 
