@@ -1,14 +1,14 @@
 // Wrapped in an immediately invoked function expression.
 (function() {
   $(document).on('click', '#submit-new-sheet', function(evt) {
-      var content = $('#new-sheet-input').val();
-      if (content.trim().length === 0) {
+      var name = $('#new-sheet-input').val();
+      if (name.trim().length === 0) {
           alert('Input must not be empty');
           return;
       }
       $.post(
           '/sheets',
-          { content: content }
+          { name: name }
       ).done(function(response) {
           loadHomePage();
       }).fail(function(responseObject) {

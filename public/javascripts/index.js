@@ -33,9 +33,6 @@ var loadHomePage = function() {
 // Loads the page to display sheets
 var loadSheetsPage = function() {
 	$.get('/sheets', function(response) {
-		console.log("index");
-		console.log(response.content.own_sheets);
-		console.log(response.content.collab_sheets);
 		loadPage('sheets', { own_sheets: response.content.own_sheets,
 							 collab_sheets: response.content.collab_sheets,
 							 currentUser: currentUser });

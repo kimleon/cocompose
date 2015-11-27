@@ -108,13 +108,11 @@ sheetSchema.statics.getSheets = function(username, callback) {
 
 sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
   Sheet.findByIdAndUpdate(sheetID, {$push: {collaborators: username}}, function(err, sheet) {
-    console.log(err);
-    console.log(sheet);
     if (err) {
       callback({msg: err.message});
     }
     else {
-      callback(null, sheet);
+      callback(null);
     }
   });
 }

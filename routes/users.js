@@ -93,7 +93,6 @@ router.post('/', function(req, res) {
 
   User.createNewUser(req.body.username, req.body.password, 
     function(err) {
-      console.log(err);
       if (err) {
         if (err.taken) {
           utils.sendErrResponse(res, 400, 'That username is already taken!');
