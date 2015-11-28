@@ -3,6 +3,9 @@
 <head>
   <title>CoCompose</title>
   <link rel="stylesheet" href="../stylesheets/style.css" type="text/css" charset="utf-8">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="../javascripts/handlebars.runtime-v4.0.2.js"></script>
+  <script src="../javascripts/templates.js"></script>
 </head>
 
 <a href="../" id="libraryLink">Back to Library</a>
@@ -24,6 +27,16 @@
      	<label for="add-collaborator-input">Add a new collaborator:</label>
      	<input type="text" id="add-collaborator-input" />
      	<button id="submit-new-collaborator" class='tealButton'>Add</button>
+    </div>
+    <div id="creator"><h3>Creator: <%=creator%></h3>
+    </div>
+    <div id="collaborators">
+    	<h3>Collaborators:</h3>
+    	<% for(var i=0; i < collaborators.length; i++) { %>
+
+		  <p><%= collaborators[i] %></p>
+
+		<% } %>
     </div>
 	<canvas id="sheet" width="150" height="150"></canvas>
 	<button type="button" id="playButton" class="tealButton">play/pause</button>

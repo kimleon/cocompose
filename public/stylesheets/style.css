@@ -87,6 +87,23 @@ a {
     z-index:100;
 }
 
+#creator {
+    margin-top: 350px;
+    margin-left: 925px;
+    position:fixed;
+    top:0;
+    z-index:100;
+}
+
+#collaborators {
+    margin-top: 375px;
+    margin-left: 925px;
+    position:fixed;
+    top:0;
+    z-index:100;
+    padding-bottom: 0px;
+}
+
 .tealButton {
   outline: 0;
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));

@@ -107,7 +107,13 @@ router.get('/', function(req, res, next) {
     - success: renders the composer.ejs file to load the individual sheet webpage view
 */
 router.get('/:sheet', function(req, res, next) {
-  res.render('composer');
+  Sheet.getSheetInfo(req.sheetID, function(err, sheet) {
+    if (sheet) {
+      console.log("sheet1");
+      var data = { creator: sheet.creator, collaborators: sheet.collaborators };
+      res.render('composer', { 'creator': sheet.creator, 'collaborators': sheet.collaborators });
+    }
+  });
 });
 
 /*
