@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			{ collab: collab }
 		).done(function(response) {
 			$('.error').text("");
+			location.reload();
 		}).fail(function(responseObject) {
 			var response = $.parseJSON(responseObject.responseText);
 			console.log(response.err);

@@ -21,20 +21,22 @@
      	<label for="BPM-input">Tempo (BPM):</label>
      	<input type="text" id="BPM-input" value="120"/> <br>
     </div>
-	<div id="addCollaborator">
-		<div class="error" style="color:red;">
-    	</div>
-     	<label for="add-collaborator-input">Add a new collaborator:</label>
-     	<input type="text" id="add-collaborator-input" />
-     	<button id="submit-new-collaborator" class='tealButton'>Add</button>
-    </div>
+    <% if (creator===currentUser) { %>
+		<div id="addCollaborator">
+			<div class="error" style="color:red;">
+	    	</div>
+	     	<label for="add-collaborator-input">Add a new collaborator:</label>
+	     	<input type="text" id="add-collaborator-input" />
+	     	<button id="submit-new-collaborator" class='tealButton'>Add</button>
+	    </div>
+	<% } %>
     <div id="creator"><h3>Creator: <%=creator%></h3>
     </div>
     <div id="collaborators">
     	<h3>Collaborators:</h3>
     	<% for(var i=0; i < collaborators.length; i++) { %>
 
-		  <p><%= collaborators[i] %></p>
+		  <%= collaborators[i] %><br>
 
 		<% } %>
     </div>

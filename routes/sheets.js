@@ -104,14 +104,12 @@ router.get('/', function(req, res, next) {
   Request parameters:
     - sheet: the unique ID of the sheet within the logged in user's sheet collection
   Response:
-    - success: renders the composer.ejs file to load the individual sheet webpage view
+    - success: renders the composer.ejs file to load the individual sheet webpage view with sheet info
 */
 router.get('/:sheet', function(req, res, next) {
   Sheet.getSheetInfo(req.sheetID, function(err, sheet) {
     if (sheet) {
-      console.log("sheet1");
-      var data = { creator: sheet.creator, collaborators: sheet.collaborators };
-      res.render('composer', { 'creator': sheet.creator, 'collaborators': sheet.collaborators });
+      res.render('composer', { 'creator': sheet.creator, 'collaborators': sheet.collaborators, 'currentUser': req.currentUser.username });
     }
   });
 });

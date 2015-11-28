@@ -24,8 +24,6 @@
       $.get(
           '/sheets/' + id
       ).done(function(response) {
-          console.log(response);
-          console.log(response.data);
       }).fail(function(responseObject) {
           var response = $.parseJSON(responseObject.responseText);
           $('.error').text(response.err);
@@ -45,12 +43,4 @@
           $('.error').text(response.err);
       });
   });
-
-  var loadInfo = function(id) {
-    console.log("info loading");
-    $.get('/sheets/'+id, function(response) {
-      console.log(response.content);
-      $('#creator').html(Handlebars.templates['sheetinfo'](response.content));
-    });
-  };
 })();
