@@ -1,8 +1,9 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  padding-top: 40px;
+  padding-top: 20px;
+  padding-left: 20px;
   padding-bottom: 40px;
-  background-color: #eee;
+  background-color: #FFFFFF;
 }
 
 .form-signin {
@@ -114,16 +115,16 @@ a {
 	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
 	background-color:#599bb3;
-	-moz-border-radius:24px;
-	-webkit-border-radius:24px;
-	border-radius:24px;
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
 	border:1px solid #29668f;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
 	font-size:14px;
-	padding:12px 25px;
+	padding:12px 21px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
 }
@@ -137,3 +138,15 @@ a {
   width: 50%;
   float: left;
 }
+
+#signin-btn {
+  margin-right: 25px;
+}
+
+.spaceInputs div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
