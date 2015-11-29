@@ -15,6 +15,7 @@ html {
 body {
   font-family: 'Quicksand', Arial, sans-serif;
   font-size: 14px;
+  font-weight: 400;
   color: #666666;
   line-height: 1.5;
   background-color: #ffffff;
@@ -96,7 +97,7 @@ h1 {
   font-family: 'Josefin Sans', sans-serif;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-weight: 300;
+/*  font-weight: 300;*/
 }
 h2,
 h3,
@@ -110,7 +111,7 @@ h6,
 .h5,
 .h6 {
   font-family: 'Josefin Sans', Arial, sans-serif;
-  font-weight: 300;
+/*  font-weight: 300;*/
 }
 h1 small,
 h2 small,
