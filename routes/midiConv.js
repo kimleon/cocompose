@@ -14,7 +14,6 @@ var generateMidi = function (listOfNotes) {
 	listOfNotes.sort(function(a,b) {
 		return a.time - b.time;
 	});
-	console.log(listOfNotes);
 	
 	var prevTime = 0;
 	for (var i = 0; i < listOfNotes.length; i++) {
@@ -26,7 +25,6 @@ var generateMidi = function (listOfNotes) {
 		};
 		prevTime = currentNote.time;
 	};
-	console.log(btoa(file.toBytes()));
 	return btoa(file.toBytes());
 };
 

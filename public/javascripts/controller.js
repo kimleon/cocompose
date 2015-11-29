@@ -43,7 +43,6 @@ var Controller = function () {
 			sheetID: sheetID,
 			note: cell
 		});
-		console.log(cell);
 	};
 
 	var recieveNoteUpdate = function (data) {
@@ -145,7 +144,6 @@ var Controller = function () {
 	that.getMidiString = function (){
 		socket.emit('convert_sheet', that.returnListOfMidiNotes());
 		socket.on('supply_midi', function (data) {
-			console.log(data);
 			that.playMidi(data);
 		});
 	};

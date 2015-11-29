@@ -41,7 +41,6 @@ PianoKeys = function () {
 
 	isClicked = false;
 	pianoClickListener = function(evt){
-		console.log("clickedColumn");
 		var mouseCoordsToMouseCoords = function (mouseX,mouseY) {
 			var canvasRect = canvas.getBoundingClientRect();
 
@@ -63,7 +62,6 @@ PianoKeys = function () {
 	};
 
 	canvas.addEventListener("mousedown", function(evt){
-		console.log(mouseListener);
 		isClicked = true;
 		pianoClickListener(evt);
 	});

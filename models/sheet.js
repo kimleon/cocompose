@@ -153,8 +153,6 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
   - username must not be creator of the sheet
 */
 sheetSchema.statics.deleteCollaborator = function(username, sheetID, callback) {
-  console.log(username);
-  console.log(sheetID);
   User.userExists(username,function(err,user) {
     if (err) {
       callback({message: err.message});

@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				pianoKeys.toggleKeyColor(pianoKey, noteOn);
 			});
 			controller.player.setAnimation(function (data, element) {
-				console.log(data);
 				redrawSheet();
 				if (data.now < data.end){
 					pixelsPerUnitTime  = (CELL_SIZE_Y * 4) / .5;
@@ -156,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
 			location.reload();
 		}).fail(function(responseObject) {
 			var response = $.parseJSON(responseObject.responseText);
-			console.log(response.err);
 			$('.error').text(response.err);
 		});
 	});

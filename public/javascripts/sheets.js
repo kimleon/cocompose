@@ -26,22 +26,6 @@
   });
 
   /**
-    Javascript action for when the user clicks on a specific sheet. Brings the user 
-    to the individual sheet page, displaying sheet controls and the notes for that sheet.
-  */
-  // $(document).on('click', '.go-to-sheet', function(evt) {
-  //     var item = $(this).parent();
-  //     var id = item.data('sheet-id');
-  //     $.get(
-  //         '/sheets/' + id
-  //     ).done(function(response) {
-  //     }).fail(function(responseObject) {
-  //         var response = $.parseJSON(responseObject.responseText);
-  //         $('.error').text(response.err);
-  //     });
-  // });
-
-  /**
     Javascript action for when the user clicks on the delete button for a specific sheet. 
     Removes that sheet from the list of sheets displayed and if the currentUser is the 
     creator of the sheet, removes the sheet from all lists of sheets displayed for all users.
