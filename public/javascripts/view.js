@@ -165,9 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		var item = $(this).parent();
 		var currentURL = window.location.href;
 		var sheetID = currentURL.split("/").pop();
-		// var id = item.data('sheet-id');
-		console.log(item.data('collab-name'));
-		console.log(sheetID);
 		var name = item.data('collab-name');
 		$.ajax({
 		  url: '/sheets/' + sheetID + '/' + name,

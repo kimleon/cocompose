@@ -63,6 +63,7 @@ var requireOwnership = function(req, res, next) {
 router.all('*', requireAuthentication);
 router.all('/:sheet', requireAccess);
 router.all('/:sheet/addCollab', requireOwnership);
+router.all('/:sheet/:name', requireOwnership);
 
 /*
   Grab a sheet from the store whenever one is referenced with an ID in the
@@ -175,20 +176,17 @@ router.delete('/:sheet', function(req, res) {
 });
 
 /*
-  If the user is a collaborator on a sheet, only deletes the sheet from their access list.
-  If the user is the creator of a sheet, deletes the sheet from all users' lists.
+  Deletes the collaborator from the list of collaborators for the sheet.
 
-  DELETE /sheets/:sheet
+  DELETE /sheets/:sheet/:name
   Request parameters:
-    - sheetID: the unique ID of the sheet within the logged in user's sheet collection
-    - username: the username of the user currently logged in
+    - sheet: the unique ID of the sheet within the logged in user's sheet collection
+    - name: the username of the collaborator to be deleted
   Response:
-    - success: true if the server succeeded in deleting the user's sheet
+    - success: true if the server succeeded in deleting the collaborator from the sheet
     - err: on failure, an error message
 */
 router.delete('/:sheet/:name', function(req, res) {
-  console.log(req.params.name);
-  console.log(req.params.sheet);
   Sheet.deleteCollaborator(req.params.name, req.params.sheet, function(err) {
       if (err) {
         utils.sendErrResponse(res, 500, 'An unknown error occurred.');

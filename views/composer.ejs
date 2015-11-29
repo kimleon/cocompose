@@ -58,7 +58,10 @@
 	    	<% for(var i=0; i < collaborators.length; i++) { %>
 
 	    		<div class="collab" data-collab-name=<%=collaborators[i]%>>
-					<%= collaborators[i] %> <button class="delete-collab"><i class="fa fa-trash fa-lg"></i></button>
+					<%= collaborators[i] %> 
+					<% if (creator===currentUser) { %> 
+						<button class="delete-collab"><i class="fa fa-trash fa-lg"></i></button>
+					<% } %>
 					<br>
 				</div>
 
