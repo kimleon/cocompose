@@ -174,4 +174,28 @@ router.delete('/:sheet', function(req, res) {
   });
 });
 
+/*
+  If the user is a collaborator on a sheet, only deletes the sheet from their access list.
+  If the user is the creator of a sheet, deletes the sheet from all users' lists.
+
+  DELETE /sheets/:sheet
+  Request parameters:
+    - sheetID: the unique ID of the sheet within the logged in user's sheet collection
+    - username: the username of the user currently logged in
+  Response:
+    - success: true if the server succeeded in deleting the user's sheet
+    - err: on failure, an error message
+*/
+router.delete('/:sheet/:name', function(req, res) {
+  console.log(req.params.name);
+  console.log(req.params.sheet);
+  Sheet.deleteCollaborator(req.params.name, req.params.sheet, function(err) {
+      if (err) {
+        utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+      } else {
+        utils.sendSuccessResponse(res);
+      }
+  });
+});
+
 module.exports = router;

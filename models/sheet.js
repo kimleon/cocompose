@@ -145,6 +145,55 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
 }
 
 /**
+  Given a username, deletes the username from the list of collaborators for the sheet 
+  associated with the given sheetID under the following conditions:
+
+  - username must exist
+  - username must have access to the sheet
+  - username must not be creator of the sheet
+*/
+sheetSchema.statics.deleteCollaborator = function(username, sheetID, callback) {
+  console.log(username);
+  console.log(sheetID);
+  User.userExists(username,function(err,user) {
+    if (err) {
+      callback({message: err.message});
+    }
+    else {
+      Sheet.findById(sheetID, function(err, sheet) {
+        if (err) {
+          callback({message: err.message});
+        }
+        else if (username===sheet.creator) {
+          callback({message: 'You cannot delete the creator of the sheet!'});
+        }
+        else if (!contains(sheet.collaborators,username)) {
+          callback({message: username + ' is not a collaborator!'});
+        }
+        else {
+          Sheet.findById(sheetID, function(err, sheet) {
+            if (err) {
+              callback({message: err.message});
+            }
+            else {
+              new_collaborators=[];
+              sheet.collaborators.forEach(function(collaborator) {
+                if (collaborator!=username) {
+                  new_collaborators.push(collaborator);
+                }
+              })
+              sheet.collaborators=new_collaborators;
+              sheet.save();
+              callback(null);
+            }
+          });
+        }
+      })
+    }
+  })
+}
+
+/**
   Helper function to check if the "obj" is in the array "a".
 */
 function contains(a, obj) {

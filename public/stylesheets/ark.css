@@ -682,6 +682,16 @@ a:focus {
   cursor: pointer;
   color: #29668f;
 }
+.delete-collab {
+  margin-left: 10px;
+  background:none;
+  border:none;
+  padding:0;
+}
+.delete-collab:hover {
+  cursor: pointer;
+  color: #29668f;
+}
 .btn.sr-only {
   position: absolute;
 }

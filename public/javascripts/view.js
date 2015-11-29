@@ -161,6 +161,25 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 
+	$(document).on('click', '.delete-collab', function(evt) {
+		var item = $(this).parent();
+		var currentURL = window.location.href;
+		var sheetID = currentURL.split("/").pop();
+		// var id = item.data('sheet-id');
+		console.log(item.data('collab-name'));
+		console.log(sheetID);
+		var name = item.data('collab-name');
+		$.ajax({
+		  url: '/sheets/' + sheetID + '/' + name,
+		  type: 'DELETE'
+		}).done(function(response) {
+		  item.remove();
+		}).fail(function(responseObject) {
+		  var response = $.parseJSON(responseObject.responseText);
+		  $('.error').text(response.err);
+		});
+	});
+
 	redrawSheet();
 
 });
