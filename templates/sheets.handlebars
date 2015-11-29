@@ -1,27 +1,36 @@
-<div id="sheets">
+<div class="container">
+  	<div class="page-header">
 	<p>Welcome, {{currentUser}} (<a href="#" id="logout-link">logout</a>)</p>
 	<h1>CoCompose Music Library</h1>
-	<div>
-      <div class="error"></div>
-      <label for="new-sheet-input">Add a new sheet:</label>
-      <input type="text" id="new-sheet-input" />
-      <button id="submit-new-sheet" class='tealButton'>Add</button>
-    </div>
-    <div class="left">
-		<h1>My Sheets</h1>
+	<div class="error"></div>
+	<form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="new-sheet-input" class="col-sm-2 control-label">Add a new sheet:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="new-sheet-input" placeholder="Sheet Name">
+            </div>
+            <div class="col-sm-2">
+            	<button id="submit-new-sheet" class='btn btn-info'>Add</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-6">
+			<h1>My Sheets</h1>
 
-		{{#each own_sheets}}
-		  {{> sheet}}
-		  <br>
-		{{/each}}
-	</div>
+			{{#each own_sheets}}
+			  {{> sheet}}
+			  <br>
+			{{/each}}
+        </div>
+        <div class="col-md-6">
+			<h1>Sheets Shared With Me</h1>
 
-	<div class="right">
-		<h1>Sheets Shared With Me</h1>
-
-		{{#each collab_sheets}}
-		  {{> sheet}}
-		  <br>
-		{{/each}}
+			{{#each collab_sheets}}
+			  {{> sheet}}
+			  <br>
+			{{/each}}
+        </div>
+      </div>
 	</div>
 </div>

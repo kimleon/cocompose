@@ -2,46 +2,66 @@
 <html>
 <head>
   <title>CoCompose</title>
-  <link rel="stylesheet" href="../stylesheets/style.css" type="text/css" charset="utf-8">
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="../javascripts/handlebars.runtime-v4.0.2.js"></script>
   <script src="../javascripts/templates.js"></script>
+  <!-- Bootstrap: -->
+	  	<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans:300,400|Quicksand:400,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="../stylesheets/ark.css" type="text/css" charset="utf-8">
 </head>
 
-<a href="../" id="libraryLink">Back to Library</a>
 
 <br>
 
 <body oncontextmenu="return false;">
-	<canvas id="piano" width="150" height="150"></canvas>
-	<br>
-	<div id="controls">
-		<label for="playback-start-measure-input">Start Playback From Measure:</label>
-     	<input type="text" id="playback-start-measure-input" value="1"/> <br>
-     	<label for="BPM-input">Tempo (BPM):</label>
-     	<input type="text" id="BPM-input" value="120"/> <br>
-    </div>
-    <% if (creator===currentUser) { %>
-		<div id="addCollaborator">
-			<div class="error" style="color:red;">
-	    	</div>
-	     	<label for="add-collaborator-input">Add a new collaborator:</label>
-	     	<input type="text" id="add-collaborator-input" />
-	     	<button id="submit-new-collaborator" class='tealButton'>Add</button>
+	<div class="row">
+		<div class="col-md-9">
+			<canvas id="piano" width="150" height="150"></canvas>
+			<canvas id="sheet" width="150" height="150"></canvas>
+			
+		</div>
+	</div>
+	<div class="composer_controls">
+		<a href="../" id="libraryLink">Back to Library</a><br><br>
+		<button type="button" id="playButton" class="btn btn-info btn-lg">play</button><br><br>
+		<div id="form-group">
+			<label for="playback-start-measure-input">Start Playback From Measure:</label>
+	     	<input type="text" id="playback-start-measure-input" value="1" class="form-control"/> <br>
+	     	<label for="BPM-input">Tempo (BPM):</label>
+	     	<input type="text" id="BPM-input" value="120" class="form-control"/> <br>
 	    </div>
-	<% } %>
-    <div id="creator"><h3>Creator: <%=creator%></h3>
-    </div>
-    <div id="collaborators">
-    	<h3>Collaborators:</h3>
-    	<% for(var i=0; i < collaborators.length; i++) { %>
-
-		  <%= collaborators[i] %><br>
-
+	    <% if (creator===currentUser) { %>
+			<div id="addCollaborator">
+				<div class="error" style="color:red;">
+		    	</div>
+		     	<label for="add-collaborator-input">Add a new collaborator:</label>
+		     	<div class="col-md-8">
+		     		<input type="text" id="add-collaborator-input" class="form-control" placeholder="Username"/>
+		     	</div>
+		     	<div class="col-md-4">
+		     		<button id="submit-new-collaborator" class='btn btn-info'>Add</button>
+		     	</div>
+		    </div> <br><br>
 		<% } %>
-    </div>
-	<canvas id="sheet" width="150" height="150"></canvas>
-	<button type="button" id="playButton" class="tealButton">play/pause</button>
+	    <div id="creator"><h3>Creator: <%=creator%></h3>
+	    </div>
+	    <div id="collaborators">
+	    	<h3>Collaborators:</h3>
+	    	<% for(var i=0; i < collaborators.length; i++) { %>
+
+			  <%= collaborators[i] %><br>
+
+			<% } %>
+	    </div>
+	</div>
+	<br>
 
 	<br><br>
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
