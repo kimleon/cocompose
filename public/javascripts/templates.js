@@ -25,7 +25,7 @@ templates['sheet'] = template({"compiler":[7,">= 4.0.0"],"main":function(contain
     + alias4(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"_id","hash":{},"data":data}) : helper)))
     + "\" class=\"go-to-sheet\">"
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</a><button style=\"color:red;\" class=\"delete-sheet\">X</button>\n</div>\n";
+    + "</a><button class=\"delete-sheet\"><i class=\"fa fa-trash fa-lg\"></i></button>\n</div>\n";
 },"useData":true});
 templates['sheets'] = template({"1":function(container,depth0,helpers,partials,data) {
     var stack1;

@@ -45,6 +45,27 @@ a {
   color: #00B7FF;
 }
 
+a:link {
+  text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.delete-sheet {
+  margin-left: 10px;
+  color: #000000;
+  background:none;
+  border:none;
+  padding:0;
+}
+
+.delete-sheet:hover {
+  cursor: pointer;
+  color: #29668f;
+}
+
 #libraryLink {
     position:fixed;
     margin-left: 925px;
