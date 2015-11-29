@@ -55,8 +55,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // in the session variable (accessed by the
 // encrypted cookied).
 app.use(function(req, res, next) {
-  console.log("Current User");
-  console.log(req.session.username)
   if (req.session.username) {
     User.findByUsername(req.session.username, 
       function(err, user) {
@@ -118,15 +116,12 @@ io.on('connection', function (socket) {
                 console.log(err.message)
                 // res.send({success: false, message: err.msg});
               } 
-          });   
-          console.log("created new note");
+          });
           socket.broadcast.to(data.sheetID).emit("note_update", data);
         } else {
-          console.log("updated note");
           socket.broadcast.to(data.sheetID).emit("note_update", data);
         }
     });
-    console.log(data);
   });
 
   socket.on('join_sheet', function (data) {

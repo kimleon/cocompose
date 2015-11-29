@@ -4,7 +4,6 @@ PianoKeys = function () {
 	var CELL_SIZE_X = 25;
 	var CELL_SIZE_Y = 10;
 	var PIANO_HEIGHT = 6;
-	console.log("Is this working")
 	var canvas = document.getElementById('piano');
 	canvas.style.border = "black 1px solid";
 	var ctx = canvas.getContext('2d');
