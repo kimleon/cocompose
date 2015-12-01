@@ -27,11 +27,10 @@ var isLoggedInOrInvalidBody = function(req, res) {
 };
 
 /*
-  Require login whenever accessing all the sheets available to a user
+  Require login whenever accessing all the sheets available to a user.
   This means that the client accessing the resource must be logged in
-  as the user that originally created the sheets or that the user is on
-  the list of collaborators for the sheets. Clients who are not owners 
-  of this particular resource will receive a 404.
+  as the user whose home page and sheets we are trying to display.
+  Clients who are not owners of this particular resource will receive a 404.
 */
 var requireLogin = function(req, res, next) {
   if (!(req.currentUser.username === req.params.username)) {
