@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
 var User = require('../models/user');
-var sheet = require('../models/sheet');
+var Sheet = require('../models/sheet');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -25,6 +25,24 @@ var isLoggedInOrInvalidBody = function(req, res) {
   }
   return false;
 };
+
+/*
+  Require login whenever accessing all the sheets available to a user
+  This means that the client accessing the resource must be logged in
+  as the user that originally created the sheets or that the user is on
+  the list of collaborators for the sheets. Clients who are not owners 
+  of this particular resource will receive a 404.
+*/
+var requireLogin = function(req, res, next) {
+  if (!(req.currentUser.username === req.params.username)) {
+    utils.sendErrResponse(res, 403, 'Must be logged in to use this feature.');
+  } else {
+    next();
+  }
+}
+
+// Register the middleware handlers above.
+router.all('/:username/sheets', requireLogin);
 
 /*
   Checks to see if the username and password provided is valid. If either is empty or 
@@ -120,6 +138,25 @@ router.get('/current', function(req, res) {
   } else {
     utils.sendSuccessResponse(res, { loggedIn : false });
   }
+});
+
+/*
+  GET /users/username/sheets
+  No request parameters
+  Response:
+    - success: true if the server succeeded in getting the sheets from the database
+    - content: on success, an object with two fields: 'own_sheets', which contains a list of the
+    user's sheets, and 'collab_sheets', which contains a list of the sheets the user was shared on
+    - err: on failure, an error message
+*/
+router.get('/:username/sheets', function(req, res, next) {
+  Sheet.getSheets(req.params.username, function(err, sheets) {
+    if (err) {
+    utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+    } else {
+    utils.sendSuccessResponse(res, { own_sheets: sheets.own_sheets, collab_sheets: sheets.collab_sheets });
+    }
+    });
 });
 
 module.exports = router;

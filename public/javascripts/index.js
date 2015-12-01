@@ -32,7 +32,7 @@ var loadHomePage = function() {
 
 // Loads the page to display sheets
 var loadSheetsPage = function() {
-	$.get('/sheets', function(response) {
+	$.get('/users/' + currentUser + '/sheets', function(response) {
 		loadPage('sheets', { own_sheets: response.content.own_sheets,
 							 collab_sheets: response.content.collab_sheets,
 							 currentUser: currentUser });

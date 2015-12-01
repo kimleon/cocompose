@@ -81,6 +81,7 @@ router.param('sheet', function(req, res, next, sheetId) {
   });
 });
 
+//TODO: MOVE THIS TO users.js
 /*
   GET /sheets
   No request parameters
@@ -90,15 +91,15 @@ router.param('sheet', function(req, res, next, sheetId) {
     user's sheets, and 'collab_sheets', which contains a list of the sheets the user was shared on
     - err: on failure, an error message
 */
-router.get('/', function(req, res, next) {
-	Sheet.getSheets(req.currentUser.username, function(err, sheets) {
-		if (err) {
-		utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-		} else {
-		utils.sendSuccessResponse(res, { own_sheets: sheets.own_sheets, collab_sheets: sheets.collab_sheets });
-		}
-    });
-});
+// router.get('/', function(req, res, next) {
+// 	Sheet.getSheets(req.currentUser.username, function(err, sheets) {
+// 		if (err) {
+// 		utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+// 		} else {
+// 		utils.sendSuccessResponse(res, { own_sheets: sheets.own_sheets, collab_sheets: sheets.collab_sheets });
+// 		}
+//     });
+// });
 
 /*
   GET /sheets/:sheet
