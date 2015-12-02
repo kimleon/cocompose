@@ -34,41 +34,6 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
     });
 }
 
-//NOT USED IN MVP
-// /*
-//   locks the note and sets lockedBy
-// */
-// noteSchema.statics.lockNote = function(id, username, callback) {
-//   Note.findOneAndUpdate({'_id': id}, 
-//     {$set: { locked: true,
-//     				 lockedBy: username }},
-//     {safe: true, upsert: true},
-//     function(err, foundNote) {
-//       if (err) {
-//         callback({message: err.message});
-//       } else{
-//         callback(null, foundNote);
-//       } 
-//     });
-// }
-
-// /*
-//   unlocks the note
-// */
-// noteSchema.statics.unlockNote = function(id, callback) {
-//   Note.findOneAndUpdate({'_id': id}, 
-//     {$set: { locked: false,
-//     				 lockedBy: undefined }},
-//     {safe: true, upsert: true},
-//     function(err, foundNote) {
-//       if (err) {
-//         callback({message: err.message});
-//       } else{
-//         callback(null, foundNote);
-//       } 
-//     });
-// }
-
 /*
   returns all notes
 */
