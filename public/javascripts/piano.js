@@ -15,6 +15,11 @@ PianoKeys = function () {
 		ctx.fillStyle = colorsBW[coordX%12];
 		ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 	};
+
+	/**
+    Helper method to draw a line from the given 
+    startCoord to the given endCoord
+  */
 	var drawLine = function (startCoord, endCoord) {
 		ctx.beginPath();
       	ctx.moveTo(startCoord[0], startCoord[1]);
@@ -40,6 +45,11 @@ PianoKeys = function () {
 	};
 
 	isClicked = false;
+	/**
+    Called when the usr clickes the canvas. 
+    The note is turned on or off and 
+    the color is added or removed to the canvas accordingly.
+  */
 	pianoClickListener = function(evt){
 		var mouseCoordsToMouseCoords = function (mouseX,mouseY) {
 			var canvasRect = canvas.getBoundingClientRect();
@@ -71,6 +81,9 @@ PianoKeys = function () {
 		pianoClickListener(evt);
 	});
 
+	/**
+    Colors the given cell according the appropriate color in colorDict.
+  */
 	var colorKey = function (xCell, colorDict) {
 		var drawCell = function (coordX,coordY) {
 			ctx.fillStyle = colorDict[coordX%12];
@@ -83,14 +96,25 @@ PianoKeys = function () {
 		drawLine([xCell*CELL_SIZE_X,0],[xCell*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
 	};
 
+	/**
+    Colors the given cell with its corresponding non-BW color.
+  */
 	var addKeyColor = function (xCell) {
 		colorKey(xCell, colorsNormal);
 	};
 
+	/**
+    Colors the given cell with its corresponding BW color.
+  */
 	var resetKeyColor = function (xCell) {
 		colorKey(xCell, colorsBW);
 	};
 
+	/**
+    Toggles the key color from 
+    white to its corresponding color or 
+    its corresponding color to white.
+  */
 	that.toggleKeyColor = function (xCell, isKeyColored) {
 		if (isKeyColored) {
 			addKeyColor(xCell);
