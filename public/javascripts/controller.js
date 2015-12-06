@@ -76,11 +76,15 @@ var Controller = function () {
 	};
 
 	/** setNewSheet - Clears the sheet and adds any required notes
+	* If dimensions are not numbers, simply throw an error
 	* param dimX - x dimension of the sheet
 	* param dimY - y dimension of the sheet
 	* param arrayOfNoteCells - list of coordinates specifying which cells are alive
 	*/
 	that.setNewSheet = function (dimX, dimY, arrayOfNoteCells) {
+		if ((isNaN(dimX)) || (isNaN(dimY))) {
+		  throw "Dimensions are not valid";
+		};
 		that.dimX = dimX;
 		that.dimY = dimY;
 		model = SheetModel(dimX,dimY,arrayOfNoteCells);
@@ -89,7 +93,8 @@ var Controller = function () {
 	};
 
 	/** setCell - Sets the cell at the specified x and y coords to value, and notifies the server
-	*	if the cell has changed state
+	*	if the cell has changed state.
+	*	If the specified coordinates are not valid, do nothing.
 	* 	param coordX - x coordinate of the cell
 	* 	param coordY - y coordinate of the cell
 	* 	param value - value to set the cell
@@ -124,10 +129,14 @@ var Controller = function () {
 	};
 
 	/** noteAtCell - Returns whether the specified cell is note
+	* If coordinates are not numbers, throw an error
 	* param coordX - x coordinate of the cell
 	* param coordY - y coordinate of the cell
 	**/
 	that.noteAtCell = function (coordX, coordY) {
+		if((isNaN(coordX)) || (isNaN(coordY))){
+		  throw "Coordinates are not valid";
+		};
 		return model.noteAtCell(coordX,coordY);
 	};
 
@@ -161,11 +170,16 @@ var Controller = function () {
 		return notes;
 	};
 
-	/** getMidiStringAndPlay - Sends request to the server to convert the sheet to MIDI, then begins
-	*	playing at the measure specified at startMeasure
+	/** getMidiStringAndPlay - Sends request to the server
+	*	to convert the sheet to MIDI, then begins
+	*	playing at the measure specified at startMeasure.
+	*	If startMeasure is not valid, start from the top.
 	* 	param startMeasure - Measure from which to begin playback
 	**/
 	that.getMidiStringAndPlay = function (startMeasure){
+		if(isNaN(startMeasure)){
+		  startMeasure = 0;
+		}
 		socket.emit('convert_sheet', that.returnListOfMidiNotes());
 		socket.on('supply_midi', function (data) {
 			that.playMidi(data, startMeasure);

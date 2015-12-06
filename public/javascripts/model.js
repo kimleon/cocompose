@@ -46,18 +46,18 @@ var SheetModel = function (dimX, dimY, startingState) {
 	};
 
 	/** updateCell - changes the value of the Cell at coordX,coordY to newValue
+	* If coordinates invalid, throw a error;
+	* If newValue not a boolean, throw an error.
 	* param coordX - x coordinate of the cell
 	* param coordY - y coordinate of the cell
 	* param newValue - boolean value to set 
 	**/
 	that.updateCell = function (coordX, coordY, newValue) {
 		if ((coordX > dimX) || (coordY > dimY)) {
-			console.log("Coordinates are too large!");
 			throw "error: Coordinates are too large!";
 		};
 
 		if (typeof(newValue) !== "boolean") {
-			console.log("newValue is wrong type!");
 			throw "error: newValue is wrong type!";
 		};
 		stateArray[coordX][coordY] = Cell(coordX, coordY, newValue);
@@ -93,6 +93,7 @@ var SheetModel = function (dimX, dimY, startingState) {
 	}
 
 	/** noteAtCell - Checks whether cell is a note 
+	* If coordinates not valid, throw an error.
 	* param coordX - x coordinate of the cell
 	* param coordY - y coordinate of the cell
 	**/
