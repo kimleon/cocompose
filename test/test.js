@@ -1,15 +1,19 @@
 var assert = require("assert");
-
 var Note = require('../models/note');
-
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/testdb');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  console.log("database connected");
-});
 var assert = require('chai').assert;
+
+before(function() {
+  mongoose.connect('mongodb://localhost/testdb');
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function (callback) {
+    console.log("database connected");
+  });
+  }
+)
+
+
 
 // Note is the module under test.
 describe('Note', function() {
@@ -18,29 +22,35 @@ describe('Note', function() {
   });
 
   describe('#createNote()', function () {
-    it('create new note with given params', function () {
+    it('create new note with given params', function (done) {
       Note.find({},
         function(err, notesList) {
           assert.deepEqual(notesList.length, 0);
-      });
-      Note.createNote('testSheet', 'C5', 20, true, 
-        function(err, note) {
-          if (err) {
+      }).then(function(err) {
+        Note.createNote('testSheet', 'C5', 20, true, 
+          function(err, note) {
+            if (err) {
+              assert.isTrue(false);
+            }
+        });
+      }).then(function(err) {
+        Note.find({},
+          function(err, notesList) {
+            assert.deepEqual(notesList.length, 1);
             assert.isTrue(false);
-          }
-      });
-      Note.find({},
-        function(err, notesList) {
-          assert.deepEqual(notesList.length, 1);
-      });
+            done();
+        });
+      })
     });
 
-    it('create 2 new notes with given params', function () {
+    it('create 2 new notes with given params', function (done) {
       Note.find({},
         function(err, notesList) {
           if (err) {
+            console.log("error");
             assert.isTrue(false);
           } else {
+            console.log("no error");
             console.log(notesList.length)
             // NEED TO FIX THIS
             // WHY DOES THIS WORK???
@@ -48,27 +58,28 @@ describe('Note', function() {
             console.log("kjsdnfkdsjnfsk")
             assert.deepEqual(notesList.length, 100);
           }
+          done();
       });
-      Note.createNote('testSheet', 'E5', 24, true, 
-        function(err, note) {
-          if (err) {
-            assert.isTrue(false);
-          }
-      });
-      Note.createNote('testSheet', 'C4', 10, true, 
-        function(err, note) {
-          if (err) {
-            assert.isTrue(false);
-          }
-      });
-      Note.find({},
-        function(err, notesList) {
-          if (err) {
-            assert.isTrue(false);
-          } else {
-            assert.deepEqual(notesList.length, 3);
-          }
-      });
+      // Note.createNote('testSheet', 'E5', 24, true, 
+      //   function(err, note) {
+      //     if (err) {
+      //       assert.isTrue(false);
+      //     }
+      // });
+      // Note.createNote('testSheet', 'C4', 10, true, 
+      //   function(err, note) {
+      //     if (err) {
+      //       assert.isTrue(false);
+      //     }
+      // });
+      // Note.find({},
+      //   function(err, notesList) {
+      //     if (err) {
+      //       assert.isTrue(false);
+      //     } else {
+      //       assert.deepEqual(notesList.length, 3);
+      //     }
+      // });
     });
   }); 
 
