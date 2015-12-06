@@ -1,3 +1,6 @@
+// Converts a list of notes to base64 MIDI encoding, for playback by MIDI.js
+// Lead Author: Lisandro Jimenez
+//
 var fs = require('fs');
 var Midi = require('jsmidgen');
 var express = require('express');
@@ -8,7 +11,7 @@ var generateMidi = function (listOfNotes) {
 	var file = new Midi.File();
 	var track = new Midi.Track();
 	file.addTrack(track);
-	track.note(0, 'c11', 32);
+	track.note(0, 'c11', 32); //bug workaround; required or else MIDI.js will not play the first two notes
 	track.note(0, 'd11', 32);
 
 	listOfNotes.sort(function(a,b) {

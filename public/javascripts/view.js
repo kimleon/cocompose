@@ -1,3 +1,9 @@
+// This is the main View code;
+// We used a canvas to implenent our grid UI, jQuery to register button callbacks,
+// and MIDI.js to help with music playback
+//
+// Lead Author: Lisandro Jimenez
+//
 document.addEventListener('DOMContentLoaded', function () {
 
 	var CELL_SIZE_X = 25;

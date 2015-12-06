@@ -2,7 +2,9 @@
 // + This module controls the sheet:
 //     * Controls the timing
 //     * Acts as an interface from the view to the model
-
+//
+// Lead Author: Lisandro Jimenez
+//
 var Controller = function () {
 	var that = Object.create(Controller.prototype);
 

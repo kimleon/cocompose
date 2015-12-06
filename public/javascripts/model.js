@@ -2,7 +2,9 @@
 //       * Dimensions
 //       * Which cells are notes or rests
 //   + Also contains a Cell class, which makes it easier to use functional idioms with an array
-
+//
+// Lead Author: Lisandro Jimenez
+//
 var SheetModel = function (dimX, dimY, startingState) {
 
 	/**

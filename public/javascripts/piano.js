@@ -1,3 +1,8 @@
+// This is the piano topbar;
+// We again used a canvas to draw the piano, and used MIDI.js to allow onclick playback
+//
+// Lead Author: Kimberly Leon
+//
 PianoKeys = function () {
 	var that = Object.create(PianoKeys.prototype);
 
