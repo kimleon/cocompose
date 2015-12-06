@@ -22,7 +22,7 @@ noteSchema.statics.createNote = function(sheetID, pitch, time, isNote, callback)
 }
 
 /*
-  Updates the note's start and end times
+  Updates a specific note's isNote property.
 */
 noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback) {
   Note.findOneAndUpdate({'sheetID': sheetID, 'time' : time, 'pitch': pitch}, 
@@ -38,7 +38,7 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
 }
 
 /*
-  Given a sheetID, gets all the notes belonging to that sheet.
+  Given a sheetID, gets all the notes (isNote == true) belonging to that sheet.
 */
 noteSchema.statics.getAllNotes = function(sheetID, callback) {
   Note.find({
