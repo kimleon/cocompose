@@ -8,7 +8,10 @@ var noteSchema = mongoose.Schema({
 }); 
 
 /*
-  creates a new note with the given params
+  Creates a new note with the given params (sheetID, pitch, time, and isNote).
+  sheetID is the unique ID of the sheet the note belongs to. The pitch and time describe 
+  the characteristics of the note, and isNote is a boolean to determine if the note is a note 
+  or a rest.
 */
 noteSchema.statics.createNote = function(sheetID, pitch, time, isNote, callback) {
   Note.create({ sheetID: sheetID, 
@@ -19,7 +22,7 @@ noteSchema.statics.createNote = function(sheetID, pitch, time, isNote, callback)
 }
 
 /*
-  updates the note's start and end times
+  Updates the note's start and end times
 */
 noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback) {
   Note.findOneAndUpdate({'sheetID': sheetID, 'time' : time, 'pitch': pitch}, 
@@ -35,7 +38,7 @@ noteSchema.statics.updateNote = function(sheetID, pitch, time, isNote, callback)
 }
 
 /*
-  returns all notes
+  Given a sheetID, gets all the notes belonging to that sheet.
 */
 noteSchema.statics.getAllNotes = function(sheetID, callback) {
   Note.find({

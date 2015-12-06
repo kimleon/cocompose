@@ -5,8 +5,9 @@ var userSchema = mongoose.Schema({
   password: String
 }); 
 
-/*
-  creates a new user with the given params
+/**
+  Creates a new user with the given params (username and password). If the username
+  already exists, sets taken to true.
 */
 userSchema.statics.createNewUser = function(username, password, callback) {
   this.userExists(username, function(err,user) {
@@ -21,8 +22,8 @@ userSchema.statics.createNewUser = function(username, password, callback) {
 }
 
 /**
-  Checks to see if the given username matches to a User in the database. If not, 
-  returns 'No such user!'. Otherwise, returns the User in the database.
+  Checks to see if the given username matches to a user in the database. If not, 
+  returns 'No such user!'. Otherwise, returns the user in the database.
 */
 userSchema.statics.userExists = function(username, callback) {
   User.findOne({'username': username},function(err,user) {

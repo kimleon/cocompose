@@ -30,7 +30,7 @@ var loadHomePage = function() {
 	}
 };
 
-// Loads the page to display sheets
+// Loads the page to display sheets the currentUser has access to
 var loadSheetsPage = function() {
 	$.get('/users/' + currentUser + '/sheets', function(response) {
 		loadPage('sheets', { own_sheets: response.content.own_sheets,

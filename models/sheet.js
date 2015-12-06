@@ -9,7 +9,7 @@ var sheetSchema = mongoose.Schema({
 }); 
 
 /*
-  creates a new sheet with the given params
+  Creates a new sheet with the given params (creator and name).
 */
 sheetSchema.statics.createSheet = function(creator, name, callback) {
   Sheet.create({ creator: creator, 
@@ -56,7 +56,7 @@ sheetSchema.statics.deleteSheet = function(sheetID, username, callback) {
 }
 
 /**
-  Given an ID, returns the notes attached to that sheet and sheetID from the database
+  Given an ID, returns the notes attached to that sheet from the database
 */
 sheetSchema.statics.getSheet = function(sheetId, callback) {
   Note.getAllNotes(sheetId, function(err, notes) {
@@ -150,7 +150,7 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
 
   - username must exist
   - username must have access to the sheet
-  - username must not be creator of the sheet
+  - username must not be the creator of the sheet
 */
 sheetSchema.statics.deleteCollaborator = function(username, sheetID, callback) {
   User.userExists(username,function(err,user) {

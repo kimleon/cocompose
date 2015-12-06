@@ -46,7 +46,7 @@
 
   /**
     When the logout button is pressed, posts the data to the server and upon successful 
-    completion, sets the currentUser to to undefined and loads the next page.
+    completion, sets the currentUser to undefined and loads the next page.
   */
   $(document).on('click', '#logout-link', function(evt) {
       evt.preventDefault();

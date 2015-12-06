@@ -5,8 +5,10 @@
 
 var SheetModel = function (dimX, dimY, startingState) {
 
-	//Cell class, used for each cell
-	//contains x,y coords and val (whether a cell is note or not)
+	/**
+		Cell class, used for each cell, which contains x,y coords 
+		and val (whether a cell is a note or not)
+	*/
 	var Cell = function (coordX, coordY, val) {
 		var that = Object.create(Cell.prototype);
 		that.coordX = coordX;
@@ -23,6 +25,9 @@ var SheetModel = function (dimX, dimY, startingState) {
 
 	var stateArray = [];
 
+	/**
+		Sets the starting array to an empty 2D array. 
+	*/
 	var initStateArray = function () {
 		stateArray = createEmpty2DArray(dimX,dimY);
 		startingState.map(function (coords) {

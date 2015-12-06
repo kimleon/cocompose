@@ -139,6 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		controller.getMidiString();
 	});
 
+	/**
+	    When the add button is pressed to add a collaborator, posts the data to the
+	    server and upon successful completion, add the collaborator to the list of 
+	    collaborators for the sheet and reload the page displaying the additional 
+	    collaborator.
+	*/
 	$("#submit-new-collaborator").click(function() {
 		var collab = $('#add-collaborator-input').val();
 		var currentURL = window.location.href;
@@ -159,6 +165,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 
+	/**
+	    When the delete button is pressed next to a collaborator, posts the data to the
+	    server and upon successful completion, deletes the collaborator from the list of 
+	    collaborators for the sheet and removes the collaborator from the list of displayed 
+	    collaborators for the sheet.
+	*/
 	$(document).on('click', '.delete-collab', function(evt) {
 		var item = $(this).parent();
 		var currentURL = window.location.href;
