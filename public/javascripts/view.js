@@ -8,15 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
 	var ctx = canvas.getContext('2d');
 
 	pianoKeys = PianoKeys();
-	// pianoKeys.toggleKeyColor(1,true);
 
 	var controller = Controller();
 
+	/**Draw a line on the canvas from startCoord to endCoord, with a light gray color **/
 	var drawLine = function (startCoord, endCoord) {
       	color = '#CFCFCF';
       	drawLineWithColor(startCoord, endCoord, color);
 	};
 
+	/**Draw a line on the canvas from startCoord to endCoord, with line color specified by param color (hex color code) **/
 	var drawLineWithColor = function (startCoord, endCoord, color) {
 		ctx.beginPath();
       	ctx.moveTo(startCoord[0], startCoord[1]);
@@ -32,14 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			ctx.fillStyle = colors[coordX%12];
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
-
-
-
 		ctx.clearRect(0, 0, canvas.width, canvas.height); //clear the canvas
 		ctx.canvas.width = CELL_SIZE_X * controller.dimX;
 		ctx.canvas.height = CELL_SIZE_Y * controller.dimY;
-		// ctx.fillStyle = "#FFFFFF";
-		// ctx.fillRect(0, 0, canvas.width, canvas.height); //clear the canvas
 		//Draw piano lines
 		for (var i = controller.dimX - 1; i >= 0; i--) {
 			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
@@ -57,13 +53,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		for (var i = (controller.dimY/16) - 1; i >= 0; i--) {
 			drawLineWithColor([0,i*CELL_SIZE_Y*16],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*16], '#ADADAD');
 		};
-		// //Draw submeasure lines
-		// for (var i = (controller.dimY/8) - 1; i >= 0; i--) {
-		// 	drawLineWithColor([0,i*CELL_SIZE_Y*8],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*8], '#C8C8C8');
-		// };
 
 	};
 
+	/**
+		Logic for handling canvas clicks
+		When a user clicks the canvas, a note is added at the cell clicked, if it doesn't already
+		exist. If a user right clicks the canvas, then the note is removed from the cell clicked,
+		if a note exists there.
+	*/
 	isDown = false;
 	isClicked = false;
 	clickedColumn = 0;
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			};
 		};
 	};
-
+	// Listens for mouseclicks to notify controller
 	canvas.addEventListener("mousedown", function(evt){
 		isDown = true;
 		isClicked = true;
@@ -101,9 +99,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	canvas.addEventListener("mouseup", function(evt){
 		isDown = false;
 	});
-
-	// Listens for mouseclick to notify controller
 	canvas.addEventListener("mousemove", mouseListener,false);
+
+	/**
+		Load the MIDI player
+		Adds callbacks to color the piano as the song is playing and
+		to draw a blue playback line on the canvas as the song is playing.
+	*/
 
 	controller.player = null;
 	MIDI.loadPlugin({
@@ -111,8 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		onsuccess: function() {
 			controller.player = MIDI.Player;
 			controller.player.timeWarp = 1; // speed the song is played back
-			// player.loadFile("data:audio/midi;base64,"+data, player.start);
-			controller.player.addListener(function(data) {
+			controller.player.addListener(function(data) { //add color to keys when playing back
 				var pianoKey = data.note - 48;
 				var noteOn = true;
 				if (data.velocity === 0) {
@@ -120,10 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				};
 				pianoKeys.toggleKeyColor(pianoKey, noteOn);
 			});
-			controller.player.setAnimation(function (data, element) {
+			controller.player.setAnimation(function (data, element) { //draw blue playback line
 				redrawSheet();
 				if (data.now < data.end){
 					pixelsPerUnitTime  = (CELL_SIZE_Y * 4) / .5;
+					// currentCursorPosition = ((data.now - .2505) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
 					currentCursorPosition = ((data.now - .2505) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
 					drawLineWithColor([0,currentCursorPosition],[CELL_SIZE_X*controller.dimX,currentCursorPosition], '#181A7A');
 				};
@@ -134,9 +136,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	//Whenever the Sheet gets updated in the controller/model, redraw it
 	controller.addSubscriber(redrawSheet);
 
+	/**
+		On play button click, call the controller to fetch the MIDI string and begin playing it.
+		Sets the tempo to the input value provided and checks to make sure it is indeed a number.
+	*/
 	$("#playButton").click(function(){
+		var bpmInput = $("#BPM-input").val();
+		if (isNaN(bpmInput)){
+			alert("Must input a number for BPM");
+			return;
+		}
+		var startMeasure = $('#playback-start-measure-input').val();
+		if (isNaN(startMeasure)){
+			alert("Start measure must be a number.");
+			return;
+		};
 		controller.player.timeWarp = 120.0/($("#BPM-input").val());
-		controller.getMidiString();
+		controller.getMidiStringAndPlay(startMeasure);
 	});
 
 	/**

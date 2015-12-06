@@ -23,7 +23,7 @@ db.once('open', function (callback) {
 var index = require('./routes/index');
 var users = require('./routes/users');
 var sheets = require('./routes/sheets');
-var midiConv = require('./routes/midiConv');
+var midiConv = require('./midiConv');
 
 // Import User model
 var User = require('./models/user');

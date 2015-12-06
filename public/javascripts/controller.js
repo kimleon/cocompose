@@ -17,6 +17,13 @@ var Controller = function () {
 	var currentURL = window.location.href;
 	var sheetID = currentURL.split("/").pop();
 
+	/**
+		Sets up socket.io connection.
+		Sets up callback so that when a sheet is provided by the server, it is populated to the state array.
+		Sets up callback so that when a note update is provided by the server (another user), it is 
+		reflected in the state.
+		Initializes the model.
+	*/
 	var init = function () {
 		sheetData = null
 		socket = io.connect('/');
@@ -38,6 +45,7 @@ var Controller = function () {
 		model.addSubscriber(that.notifySubscribers);
 	};
 
+	/** Sends a socket request notifiying the server that a note should be updated */
 	var notifyServer = function (cell) {
 		socket.emit('note', {
 			sheetID: sheetID,
@@ -45,11 +53,13 @@ var Controller = function () {
 		});
 	};
 
+	/** Handles a note that is provided and updates the state accordingly*/
 	var recieveNoteUpdate = function (data) {
 		that.setCell(keyToCoord(data.note.pitch), data.note.time, data.note.isNote);
 		that.notifySubscribers();
 	};
 
+	/** Converting between state array coords and MIDI notation*/
 	BASE_OCTAVE = 3
 	var coordToKey = function (coordX) {
 		pitches = {0:"C",1:"C#",2:"D",3:"D#",4:"E",5:"F",6:"F#",7:"G",8:"G#",9:"A",10:"A#",11:"B"}
@@ -78,6 +88,12 @@ var Controller = function () {
 		that.notifySubscribers();
 	};
 
+	/** setCell - Sets the cell at the specified x and y coords to value, and notifies the server
+	*	if the cell has changed state
+	* 	param coordX - x coordinate of the cell
+	* 	param coordY - y coordinate of the cell
+	* 	param value - value to set the cell
+	**/
 	that.setCell = function (coordX, coordY, value) {
 		if (model.noteAtCell(coordX,coordY) != value){
 			model.updateCell(coordX,coordY,value);
@@ -122,6 +138,10 @@ var Controller = function () {
 		return model.returnNoteCells();
 	};
 
+	/** returnListOfMidiNotes - Returns a list of notes in the sheet in a format ready to be sent to
+	*	the server for MIDI conversion.
+	*	Note Format: {pitch: pitch, isNoteStart: true/false, time:noteStart/noteEnd}
+	**/
 	that.returnListOfMidiNotes = function () {
 		var notes = [];
 		var prevIsNote = false;
@@ -141,14 +161,22 @@ var Controller = function () {
 		return notes;
 	};
 
-	that.getMidiString = function (){
+	/** getMidiStringAndPlay - Sends request to the server to convert the sheet to MIDI, then begins
+	*	playing at the measure specified at startMeasure
+	* 	param startMeasure - Measure from which to begin playback
+	**/
+	that.getMidiStringAndPlay = function (startMeasure){
 		socket.emit('convert_sheet', that.returnListOfMidiNotes());
 		socket.on('supply_midi', function (data) {
-			that.playMidi(data);
+			that.playMidi(data, startMeasure);
 		});
 	};
 
-	that.playMidi = function(midiString) {
+	/** playMidi - begins playing midiString from measure startMeasure
+	* 	param midiString - base64 MIDI string to play back
+	* 	param startMeasure - Measure from which to begin playback
+	**/
+	that.playMidi = function(midiString, startMeasure) {
 		var startMeasure = $('#playback-start-measure-input').val();
 		that.player.loadFile("data:audio/midi;base64,"+midiString, function () {
 			that.player.currentTime = ((startMeasure - 1) * 2000 + 250) * that.player.timeWarp;

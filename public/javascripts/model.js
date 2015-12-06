@@ -23,6 +23,7 @@ var SheetModel = function (dimX, dimY, startingState) {
 	that.dimX = dimX;
 	that.dimY = dimY;
 
+	//This array will contain the state of the application; two dimensional.
 	var stateArray = [];
 
 	/**
@@ -74,10 +75,12 @@ var SheetModel = function (dimX, dimY, startingState) {
 		subscribers.push(fn);
 	};
 
+	/** Call all subscribed functions*/
 	var notifySubscribers = function () {
 		subscribers.map(function (fn) {fn();});
 	};
 
+	/** Returns a two dimensional array of size x by y, filled with cells in a false state*/
 	var createEmpty2DArray = function (x, y) {
 		var emptyArray = [];
 		for (var i = x - 1; i >= 0; i--) {
