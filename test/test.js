@@ -15,134 +15,6 @@ before(function() {
   }
 )
 
-
-
-// Note is the module under test.
-// describe('Note', function() {
-//   before(function () {
-//     Note.remove().exec();
-//   });
-
-//   describe('#createNote()', function () {
-//     it('create new note with given params', function (done) {
-//       Note.find({},
-//         function(err, notesList) {
-//           assert.deepEqual(notesList.length, 0);
-//       }).then(function(err) {
-//         Note.createNote('testSheet', 'C5', 20, true, 
-//           function(err, note) {
-//             if (err) {
-//               assert.isTrue(false);
-//             }
-//         });
-//       }).then(function(err) {
-//         Note.find({},
-//           function(err, notesList) {
-//             assert.deepEqual(notesList.length, 1);
-//             assert.isTrue(false);
-//             done();
-//         });
-//       })
-//     });
-
-//     it('create 2 new notes with given params', function (done) {
-//       Note.find({},
-//         function(err, notesList) {
-//           if (err) {
-//             console.log("error");
-//             assert.isTrue(false);
-//           } else {
-//             console.log("no error");
-//             console.log(notesList.length)
-//             // NEED TO FIX THIS
-//             // WHY DOES THIS WORK???
-//             assert.isTrue(false)
-//             console.log("kjsdnfkdsjnfsk")
-//             assert.deepEqual(notesList.length, 100);
-//           }
-//           done();
-//       });
-//       // Note.createNote('testSheet', 'E5', 24, true, 
-//       //   function(err, note) {
-//       //     if (err) {
-//       //       assert.isTrue(false);
-//       //     }
-//       // });
-//       // Note.createNote('testSheet', 'C4', 10, true, 
-//       //   function(err, note) {
-//       //     if (err) {
-//       //       assert.isTrue(false);
-//       //     }
-//       // });
-//       // Note.find({},
-//       //   function(err, notesList) {
-//       //     if (err) {
-//       //       assert.isTrue(false);
-//       //     } else {
-//       //       assert.deepEqual(notesList.length, 3);
-//       //     }
-//       // });
-//     });
-//   }); 
-
-//   describe('#updateNote()', function() {
-//     it('should update isNote to false for both notes', function() {
-//       var sheetID = 'testSheet'; 
-//       var pitch1 = 'C5'; 
-//       var time1 = 20;
-//       var isNote = false;
-//       var pitch2 = 'C4'; 
-//       var time2 = 10;
-//       Note.updateNote(sheetID, pitch1, time1, isNote,
-//         function(err, note) {
-//           // NEED TO FIX THIS, SHOULD BE FALSE
-//           console.log(note.isNote)
-//           assert.isTrue(note.isNote);
-//           assert.isFalse(note.isNote);
-//       });
-//       Note.updateNote(sheetID, pitch2, time2, isNote,
-//         function(err, note) {
-//           // NEED TO FIX THIS, SHOULD BE FALSE
-//           console.log(note.isNote)
-//           assert.isTrue(note.isNote);
-//           assert.isFalse(note.isNote);
-//       });
-//     });
-
-//     it('should update isNote to true', function() {
-//       var sheetID = 'testSheet'; 
-//       var pitch = 'C5'; 
-//       var time = 20;
-//       var isNote = true;
-//       Note.updateNote(sheetID, pitch, time, isNote,
-//         function(err, note) {
-//           // NEED TO FIX THIS, SHOULD BE TRUE
-//           console.log(note.isNote)
-//           assert.isTrue(note.isNote);
-//           assert.isFalse(note.isNote);
-//       });
-//     });
-//   }); 
-
-//   describe('#getAllNotes()', function () {
-//     it('should return all notes from the sheet where isNote is true', function () {
-//     	var sheetID = 'testSheet';
-//       Note.getAllNotes(sheetID,
-//         function(err, notesList) {
-//           if (err) {
-//             assert.isTrue(false);
-//           } else {
-//             console.log(notesList.length)
-//             // NEED TO FIX THIS
-//             // THIS SHOULD BE 2 NOT 3??? BUT IT'S STILL PASSING
-//             assert.deepEqual(notesList.length, 3);
-//           }
-//       });
-//     });
-//   }); 
-
-// }); // End describe Note.
-
 // Testing the User model
 describe('User', function() {
   before(function (done) {
@@ -292,7 +164,7 @@ describe('Sheet', function() {
     })
   })
 
-  describe('#deleteFreet()', function() {
+  describe('#deleteSheet()', function() {
     it('should remove a sheet from the database if the given username is the creator', function(done) {
       Sheet.deleteSheet("507f191e810c19729de860ea","user",function() {
         Sheet.getSheets("user",function(err,dict) {
@@ -368,4 +240,82 @@ describe('Sheet', function() {
       });
     })
   })
-});
+}); // End describe Sheet
+
+// Testing the Note model
+describe('Note', function() {
+  before(function (done) {
+      for (var i in mongoose.connection.collections) {
+        mongoose.connection.collections[i].remove(function() {});
+      }
+      return done();
+  });
+
+  describe('#getAllNotes()', function() {
+    it('should return all notes from the sheet where isNote is true', function(done) {
+      Note.getAllNotes("507f191e810c19729de860ea", function(err,notes) {
+        assert.equal(0,notes.length);
+      })
+      Note.create({sheetID:"507f191e810c19729de860ea",pitch:"C#4",time:20,isNote:true});
+      Note.getAllNotes("507f191e810c19729de860ea", function(err,notes) {
+        assert.equal(1,notes.length);
+        assert.equal("C#4",notes[0].pitch);
+        assert.equal(20,notes[0].time);
+      })
+      Note.create({sheetID:"507f191e810c19729de860ea",pitch:"D#4",time:200,isNote:true});
+      Note.getAllNotes("507f191e810c19729de860ea", function(err,notes) {
+        assert.equal(2,notes.length);
+        assert.equal("C#4",notes[0].pitch);
+        assert.equal(20,notes[0].time);
+        assert.equal("D#4",notes[1].pitch);
+        assert.equal(200,notes[1].time);
+      })
+      Note.create({sheetID:"507f191e810c19729de860ea",pitch:"E#4",time:2000,isNote:false});
+      Note.getAllNotes("507f191e810c19729de860ea", function(err,notes) {
+        assert.equal(2,notes.length);
+        assert.equal("C#4",notes[0].pitch);
+        assert.equal(20,notes[0].time);
+        assert.equal("D#4",notes[1].pitch);
+        assert.equal(200,notes[1].time);
+        done();
+      })
+    })
+  })
+
+  describe('#createNote()', function () {
+    it('create new note with given sheetID, pitch, time, and isNote boolean', function(done) {
+      Note.createNote("507f191e810c19729de860ea","F#4",2000,true,function(err,note) {});
+      Note.getAllNotes("507f191e810c19729de860ea", function(err,notes) {
+        assert.equal(3,notes.length);
+        assert.equal("F#4",notes[2].pitch);
+        assert.equal(2000,notes[2].time);
+      })
+      Note.createNote("507f191e810c19729de860ea","G#4",20000,false,function(err,note) {});
+      Note.find({sheetID:"507f191e810c19729de860ea",pitch:"G#4",time:20000}, function(err,notes) {
+        assert.equal(false,notes[0].isNote);
+        done();
+      })
+    });
+  }); 
+
+  describe('#updateNote()', function() {
+    it('should update a note\'s isNote to false given a note\'s information and parameter isNote=false', function(done) {
+      Note.updateNote("507f191e810c19729de860ea","F#4",2000,false,function(err, note) {
+        Note.find({sheetID:"507f191e810c19729de860ea",pitch:"F#4",time:2000}, function(err,notes) {
+          assert.equal(false,notes[0].isNote);
+          done();
+        })
+      });
+    });
+
+    it('should update a note\'s isNote to true given a note\'s information and parameter isNote=true', function(done) {
+      Note.updateNote("507f191e810c19729de860ea","F#4",2000,true,function(err, note) {
+        Note.find({sheetID:"507f191e810c19729de860ea",pitch:"F#4",time:2000}, function(err,notes) {
+          assert.equal(true,notes[0].isNote);
+          done();
+        })
+      });
+    });
+  }); 
+
+}); // End describe Note.
