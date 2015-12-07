@@ -11,7 +11,7 @@ Implementation
 --------------
 3 models: note, sheet, user
 
-Security:  
+Security:
   - requires account and login to access any page  
   - requires authentication to view specific sheet music pages  
   - requires ownership to share/delete pages  
