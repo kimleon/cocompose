@@ -10,6 +10,7 @@ var Controller = function () {
 
 	var SHEET_WIDTH = 36;
 	var SHEET_HEIGHT = 208;
+	var NUMBER_OF_NOTES_IN_OCTAVE = 12;
 
 	that.dimX = null;
 	that.dimY = null;
@@ -65,8 +66,8 @@ var Controller = function () {
 	BASE_OCTAVE = 3
 	var coordToKey = function (coordX) {
 		pitches = {0:"C",1:"C#",2:"D",3:"D#",4:"E",5:"F",6:"F#",7:"G",8:"G#",9:"A",10:"A#",11:"B"}
-		octave = BASE_OCTAVE + ~~(coordX/12);
-		pitch = pitches[coordX%12];
+		octave = BASE_OCTAVE + ~~(coordX/NUMBER_OF_NOTES_IN_OCTAVE);
+		pitch = pitches[coordX%NUMBER_OF_NOTES_IN_OCTAVE];
 		return pitch+octave;
 	};
 
@@ -74,7 +75,7 @@ var Controller = function () {
 		pitches = {"C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,"F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11}
 		pitch = pitches[key.substring(0, key.length - 1)];
 		octave = key.substring(key.length - 1, key.length) - BASE_OCTAVE;
-		return 12*octave + pitch;
+		return NUMBER_OF_NOTES_IN_OCTAVE*octave + pitch;
 	};
 
 	/** setNewSheet - Clears the sheet and adds any required notes
@@ -192,10 +193,12 @@ var Controller = function () {
 	* 	param midiString - base64 MIDI string to play back
 	* 	param startMeasure - Measure from which to begin playback
 	**/
+	var TICKS_PER_MEASURE = 2000;
+	var PLAYBACK_OFFSET = 250; //begin playing 250 ticks into the song; MIDI.js bug workaround
 	that.playMidi = function(midiString, startMeasure) {
 		var startMeasure = $('#playback-start-measure-input').val();
 		that.player.loadFile("data:audio/midi;base64,"+midiString, function () {
-			that.player.currentTime = ((startMeasure - 1) * 2000 + 250) * that.player.timeWarp;
+			that.player.currentTime = ((startMeasure - 1) * TICKS_PER_MEASURE + PLAYBACK_OFFSET) * that.player.timeWarp;
 			that.player.start();
 		});
 	};

@@ -9,6 +9,7 @@ PianoKeys = function () {
 	var CELL_SIZE_X = 25;
 	var CELL_SIZE_Y = 10;
 	var PIANO_HEIGHT = 6;
+	var NOTES_IN_AN_OCTAVE = 12;
 	var canvas = document.getElementById('piano');
 	canvas.style.border = "black 1px solid";
 	var ctx = canvas.getContext('2d');
@@ -17,7 +18,7 @@ PianoKeys = function () {
 	var colorsBW = {0:"white", 1:"black", 2:"white", 3:"black", 4:"white", 5:"white", 6:"black", 7:"white", 8:"black", 9:"white", 10:"black", 11:"white"}
 	var colorsNormal = {0:"#e74c3c",1:"#2980b9",2:"#e08283",3:"#f1c40f",4:"#8e44ad",5:"#16a085",6:"#d2527f",7:"#19b5fe",8:"#f27935",9:"#2ecc71",10:"#86e2d5",11:"#9a12b3"};
 	var drawCell = function (coordX,coordY) {
-		ctx.fillStyle = colorsBW[coordX%12];
+		ctx.fillStyle = colorsBW[coordX%NOTES_IN_AN_OCTAVE];
 		ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 	};
 
@@ -29,7 +30,8 @@ PianoKeys = function () {
 		ctx.beginPath();
       	ctx.moveTo(startCoord[0], startCoord[1]);
       	ctx.lineTo(endCoord[0], endCoord[1]);
-      	ctx.strokeStyle = '#CFCFCF';
+      	var LIGHT_GRAY = '#CFCFCF';
+      	ctx.strokeStyle = LIGHT_GRAY;
       	ctx.stroke();
 	};
 	// Clears the Sheet and polls the controller to redraw it.
@@ -67,11 +69,13 @@ PianoKeys = function () {
 
 		cellCoords = mouseCoordsToMouseCoords(evt.clientX,evt.clientY);
 		clickedColumn = cellCoords[0];
+		var LOWEST_NOTE_IN_MIDI = 48;
+		var DEFAULT_VELOCITY = 50;
 		if (isClicked){
 			addKeyColor(clickedColumn);
-			MIDI.noteOn(0, clickedColumn + 48, 50, 0);
+			MIDI.noteOn(0, clickedColumn + LOWEST_NOTE_IN_MIDI, DEFAULT_VELOCITY, 0);
 		} else {
-			MIDI.chordOff(0, Array.from(new Array(controller.dimX), (x,i) => i+48), 0);;
+			MIDI.chordOff(0, Array.from(new Array(controller.dimX), (x,i) => i+LOWEST_NOTE_IN_MIDI), 0);;
 			redrawSheet();
 		};
 	};
@@ -91,7 +95,7 @@ PianoKeys = function () {
   */
 	var colorKey = function (xCell, colorDict) {
 		var drawCell = function (coordX,coordY) {
-			ctx.fillStyle = colorDict[coordX%12];
+			ctx.fillStyle = colorDict[coordX%NOTES_IN_AN_OCTAVE];
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
 

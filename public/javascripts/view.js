@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	var CELL_SIZE_X = 25;
 	var CELL_SIZE_Y = 10;
+	var NOTES_IN_AN_OCTAVE = 12;
+	var LIGHT_GRAY = '#CFCFCF';
+	var LIGHTER_GRAY = '#E3E3E3'
+	var DARK_GRAY = '#ADADAD';
+	var DARK_BLUE = '#181A7A';
 
 	var canvas = document.getElementById('sheet');
 	canvas.style.border = "black 1px solid";
@@ -19,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	/**Draw a line on the canvas from startCoord to endCoord, with a light gray color **/
 	var drawLine = function (startCoord, endCoord) {
-      	color = '#CFCFCF';
-      	drawLineWithColor(startCoord, endCoord, color);
+		color = LIGHT_GRAY;
+		drawLineWithColor(startCoord, endCoord, color);
 	};
 
 	/**Draw a line on the canvas from startCoord to endCoord, with line color specified by param color (hex color code) **/
@@ -35,8 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Clears the Sheet and polls the controller to redraw it.
 	var redrawSheet = function () {
 		var colors = {0:"#e74c3c",1:"#2980b9",2:"#e08283",3:"#f1c40f",4:"#8e44ad",5:"#16a085",6:"#d2527f",7:"#19b5fe",8:"#f27935",9:"#2ecc71",10:"#86e2d5",11:"#9a12b3"}
+		var cellsPerSubmeasure = 4;
+		var cellsPerMeasure = 16;
 		var drawCell = function (coordX,coordY) {
-			ctx.fillStyle = colors[coordX%12];
+			ctx.fillStyle = colors[coordX%NOTES_IN_AN_OCTAVE];
 			ctx.fillRect(coordX * CELL_SIZE_X, coordY * CELL_SIZE_Y, CELL_SIZE_X, CELL_SIZE_Y);
 		};
 		ctx.clearRect(0, 0, canvas.width, canvas.height); //clear the canvas
@@ -47,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			drawLine([i*CELL_SIZE_X,0],[i*CELL_SIZE_X,CELL_SIZE_Y*controller.dimY]);
 		};
 		//Draw submeasure lines
-		for (var i = (controller.dimY/4) - 1; i >= 0; i--) {
-			drawLineWithColor([0,i*CELL_SIZE_Y*4],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*4], '#E3E3E3');
+		for (var i = (controller.dimY/cellsPerSubmeasure) - 1; i >= 0; i--) {
+			drawLineWithColor([0,i*CELL_SIZE_Y*cellsPerSubmeasure],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*cellsPerSubmeasure], LIGHTER_GRAY);
 		};
 		//Draw notes
 		var noteCells = controller.returnNoteCells();
@@ -56,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			drawCell(coords[0],coords[1]);
 		});
 		//Draw measure lines
-		for (var i = (controller.dimY/16) - 1; i >= 0; i--) {
-			drawLineWithColor([0,i*CELL_SIZE_Y*16],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*16], '#ADADAD');
+		for (var i = (controller.dimY/cellsPerMeasure) - 1; i >= 0; i--) {
+			drawLineWithColor([0,i*CELL_SIZE_Y*cellsPerMeasure],[CELL_SIZE_X*controller.dimX,i*CELL_SIZE_Y*cellsPerMeasure], DARK_GRAY);
 		};
 
 	};
@@ -112,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		Adds callbacks to color the piano as the song is playing and
 		to draw a blue playback line on the canvas as the song is playing.
 	*/
-
+	var LOWEST_NOTE_IN_MIDI = 48;
 	controller.player = null;
 	MIDI.loadPlugin({
 		soundfontUrl: "../javascripts/soundfont/",
@@ -120,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			controller.player = MIDI.Player;
 			controller.player.timeWarp = 1; // speed the song is played back
 			controller.player.addListener(function(data) { //add color to keys when playing back
-				var pianoKey = data.note - 48;
+				var pianoKey = data.note - LOWEST_NOTE_IN_MIDI;
 				var noteOn = true;
 				if (data.velocity === 0) {
 					noteOn = false;
@@ -130,10 +137,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			controller.player.setAnimation(function (data, element) { //draw blue playback line
 				redrawSheet();
 				if (data.now < data.end){
-					pixelsPerUnitTime  = (CELL_SIZE_Y * 4) / .5;
-					// currentCursorPosition = ((data.now - .2505) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
-					currentCursorPosition = ((data.now - .2505) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
-					drawLineWithColor([0,currentCursorPosition],[CELL_SIZE_X*controller.dimX,currentCursorPosition], '#181A7A');
+					var pixelsPerUnitTime  = (CELL_SIZE_Y * 4) / .5;
+					var cursorOffset = .2505;
+					currentCursorPosition = ((data.now - cursorOffset) * pixelsPerUnitTime) * (1.0/controller.player.timeWarp);
+					drawLineWithColor([0,currentCursorPosition],[CELL_SIZE_X*controller.dimX,currentCursorPosition], DARK_BLUE);
 				};
 			});
 		}
@@ -146,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		On play button click, call the controller to fetch the MIDI string and begin playing it.
 		Sets the tempo to the input value provided and checks to make sure it is indeed a number.
 	*/
+	var DEFAULT_BPM = 120.0
 	$("#playButton").click(function(){
 		var bpmInput = $("#BPM-input").val();
 		if (isNaN(bpmInput)){
@@ -157,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			alert("Start measure must be a number.");
 			return;
 		};
-		controller.player.timeWarp = 120.0/($("#BPM-input").val());
+		controller.player.timeWarp = DEFAULT_BPM/($("#BPM-input").val());
 		controller.getMidiStringAndPlay(startMeasure);
 	});
 
