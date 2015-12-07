@@ -24,6 +24,12 @@ Security:
     + XSS  
     + CSRF  
 
+Client Side:
+  - Composer UI uses HTML canvas
+  - MIDI.js used to help with playback
+  - Bootstrap used for styling and formatting
+  - Socket.io used to communicate with server in near real time
+
 Lead Authors: 
 ---------------- 
   - app.js: Kim  
