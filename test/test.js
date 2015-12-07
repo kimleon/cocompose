@@ -176,7 +176,8 @@ describe('Sheet', function() {
     })
 
     it('should remove a user from the list of collaborators for a sheet if the given username is in the list of collaborators', function(done) {
-      Sheet.create({name:"sheet3",creator:"user3",collaborators:["use"],_id:"507f191e810c19729de860ea"});
+      var sheet = new Sheet({name:"sheet3",creator:"user3",collaborators:["use"],_id:"507f191e810c19729de860ea"});
+      sheet.save();
       Sheet.deleteSheet("507f191e810c19729de860ea","use",function() {
         Sheet.getSheetInfo("507f191e810c19729de860ea",function(err,sheet) {
           assert.equal("sheet3",sheet.name);
