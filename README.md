@@ -1,11 +1,15 @@
-jimenezl_kimleon_stuartsf_jesslli_final
+CoCompose
 =======================================
 
-CoCompose
+Overview
+--------
 
 http://52.34.56.119:3000/
 
-To write music: left-Click to add notes, right-click to delete notes
+To write music: left-click to add notes, right-click to delete notes
+
+Implementation Details:
+
 
 * Lead Authors:  
   - app.js: Kim  
