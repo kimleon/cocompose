@@ -12,6 +12,7 @@
       {{/if}}
     </div>
     <form id="register-form" class="form-group">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
       <div>Username: <input type="text" name="username" class="form-control" placeholder="Username" required /></div> <br>
       <div>Password: <input type="password" name="password" class="form-control" placeholder="Password" required /></div> <br>
       <div>Confirm Password: <input type="password" name="confirm" class="form-control" placeholder="Password" required /></div>

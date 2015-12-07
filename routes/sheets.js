@@ -1,7 +1,14 @@
+var cookieParser = require('cookie-parser')
+var csrf = require('csurf')
+var bodyParser = require('body-parser')
 var express = require('express');
 var router = express.Router();
 var Sheet = require('../models/sheet');
 var utils = require('../utils/utils');
+
+// setup route middlewares
+var csrfProtection = csrf({ cookie: true })
+var parseForm = bodyParser.urlencoded({ extended: false })
 
 /*
   Require authentication on ALL access to /sheets/*
@@ -88,10 +95,10 @@ router.param('sheet', function(req, res, next, sheetId) {
   Response:
     - success: renders the composer.ejs file to load the individual sheet webpage view with sheet info
 */
-router.get('/:sheet', function(req, res, next) {
+router.get('/:sheet', csrfProtection, function(req, res, next) {
   Sheet.getSheetInfo(req.sheetID, function(err, sheet) {
     if (sheet) {
-      res.render('composer', { 'creator': sheet.creator, 'collaborators': sheet.collaborators, 'currentUser': req.currentUser.username });
+      res.render('composer', { csrfToken: req.cookies["_csrf"], 'creator': sheet.creator, 'collaborators': sheet.collaborators, 'currentUser': req.currentUser.username });
     }
   });
 });
