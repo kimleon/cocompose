@@ -1,11 +1,18 @@
+var cookieParser = require('cookie-parser')
+var csrf = require('csurf')
+var bodyParser = require('body-parser')
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
 var User = require('../models/user');
 var Sheet = require('../models/sheet');
 
+// setup route middlewares
+var csrfProtection = csrf({ cookie: true })
+var parseForm = bodyParser.urlencoded({ extended: false })
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', csrfProtection, function(req, res, next) {
   res.send('respond with a resource');
 });
 
@@ -107,7 +114,6 @@ router.post('/', function(req, res) {
   if (isLoggedInOrInvalidBody(req, res)) {
     return;
   }
-
   User.createNewUser(req.body.username, req.body.password, 
     function(err) {
       if (err) {
@@ -131,9 +137,9 @@ router.post('/', function(req, res) {
     - success.loggedIn: true if there is a user logged in; false otherwise
     - success.user: if success.loggedIn, the currently logged in user
 */
-router.get('/current', function(req, res) {
+router.get('/current', csrfProtection, function(req, res) {
   if (req.currentUser) {
-    utils.sendSuccessResponse(res, { loggedIn : true, user : req.currentUser.username });
+    utils.sendSuccessResponse(res, { csrfToken: req.csrfToken(), loggedIn : true, user : req.currentUser.username });
   } else {
     utils.sendSuccessResponse(res, { loggedIn : false });
   }
@@ -148,12 +154,12 @@ router.get('/current', function(req, res) {
     user's sheets, and 'collab_sheets', which contains a list of the sheets the user was shared on
     - err: on failure, an error message
 */
-router.get('/:username/sheets', function(req, res, next) {
+router.get('/:username/sheets', csrfProtection, function(req, res, next) {
   Sheet.getSheets(req.params.username, function(err, sheets) {
     if (err) {
     utils.sendErrResponse(res, 500, 'An unknown error occurred.');
     } else {
-    utils.sendSuccessResponse(res, { own_sheets: sheets.own_sheets, collab_sheets: sheets.collab_sheets });
+    utils.sendSuccessResponse(res, { csrfToken: req.csrfToken(), own_sheets: sheets.own_sheets, collab_sheets: sheets.collab_sheets });
     }
     });
 });

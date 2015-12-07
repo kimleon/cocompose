@@ -1,4 +1,5 @@
 var express = require('express');
+var csrf = require('csurf')
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -19,6 +20,10 @@ db.once('open', function (callback) {
     console.log("database connected");
 });
 
+// setup route middlewares
+var csrfProtection = csrf({ cookie: true })
+var parseForm = bodyParser.urlencoded({ extended: false })
+
 // Import routes
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -33,6 +38,10 @@ var Note = require('./models/note');
 var Sheet = require('./models/sheet');
 
 var app = express();
+
+// parse cookies
+// we need this because "cookie" is true in csrfProtection
+app.use(cookieParser())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +64,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // in the session variable (accessed by the
 // encrypted cookied).
 app.use(function(req, res, next) {
+  // console.log(req);
   if (req.session.username) {
     User.findByUsername(req.session.username, 
       function(err, user) {
