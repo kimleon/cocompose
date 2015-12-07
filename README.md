@@ -13,11 +13,11 @@ Left-Click to add notes, Right-click to delete notes
   - test  
     + test.js: Stuart  
   - templates  
-    + index.handlebars:  
-    + register.handlebars:  
-    + sheet.handlebars:  
-    + sheets.handlebars:  
-    + signin.handlebars:  
+    + index.handlebars: Stuart  
+    + register.handlebars: Stuart  
+    + sheet.handlebars: Stuart  
+    + sheets.handlebars: Jessica  
+    + signin.handlebars: Stuart  
   - views  
     + composer.ejs: Lisandro  
     + error.ejs: Lisandro  
