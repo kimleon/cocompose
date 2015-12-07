@@ -3,15 +3,20 @@ CoCompose
 
 Overview
 --------
+Write music with friends! A collaborative music composition app
+
 http://52.34.56.119:3000/
 
-To write music: left-click to add notes, right-click to delete notes
+Instructions
+------------
+  - Left-click to add notes  
+  - Right-click to delete notes
 
 Implementation
 --------------
 3 models: note, sheet, user
 
-* Security:
+Security:
   - requires account and login to access any page  
   - requires authentication to view specific sheet music pages  
   - requires ownership to share/delete pages  
