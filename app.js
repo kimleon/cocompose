@@ -8,6 +8,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var helmet = require('helmet');
 
 server.listen(80);
 
@@ -39,9 +40,14 @@ var Sheet = require('./models/sheet');
 
 var app = express();
 
+
 // parse cookies
 // we need this because "cookie" is true in csrfProtection
-app.use(cookieParser())
+app.use(cookieParser());
+
+// Use helmet to secure app
+app.use(helmet());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
