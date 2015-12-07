@@ -105,7 +105,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//Socket.io stuff
+//
 io.on('connection', function (socket) {
+  //Create a new note and notify peers
   socket.on('note', function (data) {
     Note.updateNote(data.sheetID, data.note.pitch, data.note.time, data.note.isNote,
       function(err, note) {
@@ -119,15 +122,17 @@ io.on('connection', function (socket) {
           });
           socket.broadcast.to(data.sheetID).emit("note_update", data);
         } else {
-          socket.broadcast.to(data.sheetID).emit("note_update", data);
+          socket.broadcast.to(data.sheetID).emit("note_update", data); //notify peers
         }
     });
   });
 
+  //Join the room with other editors of the same sheet
   socket.on('join_sheet', function (data) {
     socket.join(data.sheetID);
   });
 
+  //Supply reuested sheet
   socket.on('request_sheet', function (data) {
     Note.getAllNotes(data.sheetID, function (err, notes) {
       if (err) {
@@ -138,6 +143,7 @@ io.on('connection', function (socket) {
     });
   });
 
+  //Convert and deliver note list as specified in the client-side controller
   socket.on('convert_sheet', function (data) {
     var midiString = midiConv(data);
     socket.emit("supply_midi", midiString);
