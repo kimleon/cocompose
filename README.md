@@ -12,14 +12,14 @@ Implementation
 3 models: note, sheet, user
 
 Security:  
-    - requires account and login to access any page  
-    - requires authentication to view specific sheet music pages  
-    - requires ownership to share/delete pages  
-    - protected against:  
-        - XSS  
-        - CSRF  
+  - requires account and login to access any page  
+  - requires authentication to view specific sheet music pages  
+  - requires ownership to share/delete pages  
+  - protected against:  
+    + XSS  
+    + CSRF  
 
-* Lead Authors: 
+Lead Authors: 
 ---------------- 
   - app.js: Kim  
   - midiConv.js: Lisandro  
