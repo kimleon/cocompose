@@ -5,7 +5,7 @@ CoCompose
 
 http://52.34.56.119:3000/
 
-Left-Click to add notes, Right-click to delete notes
+To write music: left-Click to add notes, right-click to delete notes
 
 * Lead Authors:  
   - app.js: Kim  
