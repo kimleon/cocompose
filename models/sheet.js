@@ -5,7 +5,9 @@ var User = require("./user");
 var sheetSchema = mongoose.Schema({
   name: String,
   creator: String,
-  collaborators: [String]
+  collaborators: [String],
+  measureCount: Number,
+  bpm: Number
 }); 
 
 /*
@@ -14,7 +16,9 @@ var sheetSchema = mongoose.Schema({
 sheetSchema.statics.createSheet = function(creator, name, callback) {
   Sheet.create({ creator: creator, 
                   name: name,
-                  collaborators: [] });
+                  collaborators: [],
+                  measureCount: 14,
+                  bpm: 120 });
   callback(null);
 }
 
@@ -143,6 +147,44 @@ sheetSchema.statics.addCollaborator = function(username, sheetID, callback) {
     }
   })
 }
+
+sheetSchema.statics.updateMeasureCount = function(measures, sheetID, callback) {
+  Sheet.findById(sheetID, function(err, sheet) {
+    if (err) {
+      callback({message: err.message});
+    }
+    else {
+      Sheet.findByIdAndUpdate(sheetID, {$set: {measureCount: measures}}, function(err, sheet) {
+        if (err) {
+          callback({message: err.message});
+        }
+        else {
+          callback(null);
+        }
+      });
+    }
+  })
+}
+
+sheetSchema.statics.updateBPM = function(bpm, sheetID, callback) {
+  Sheet.findById(sheetID, function(err, sheet) {
+    if (err) {
+      callback({message: err.message});
+    }
+    else {
+      Sheet.findByIdAndUpdate(sheetID, {$set: {bpm: bpm}}, function(err, sheet) {
+        if (err) {
+          callback({message: err.message});
+        }
+        else {
+          callback(null);
+        }
+      });
+    }
+  })
+}
+
+
 
 /**
   Given a username, deletes the username from the list of collaborators for the sheet 

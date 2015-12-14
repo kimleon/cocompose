@@ -149,6 +149,50 @@ document.addEventListener('DOMContentLoaded', function () {
 	//Whenever the Sheet gets updated in the controller/model, redraw it
 	controller.addSubscriber(redrawSheet);
 
+
+	$( "#measure-count-input" )
+  	.focusout(function() {
+	    var measureInput = $( "#measure-count-input" ).val();
+	    var currentURL = window.location.href;
+			var sheetID = currentURL.split("/").pop();
+	    if (isNaN(measureInput)){
+				alert("Must input a number for number of measures");
+				return;
+			}
+			$.post(
+				'../sheets/' + sheetID + '/updateMeasures',
+				{ mCount: measureInput }
+			).done(function(response) {
+				$('.error').text("");
+				location.reload();
+			}).fail(function(responseObject) {
+				var response = $.parseJSON(responseObject.responseText);
+				$('.error').text(response.err);
+			});
+	  });
+
+	$( "#BPM-input" )
+  	.focusout(function() {
+	    var BPMInput = $( "#BPM-input" ).val();
+	    var currentURL = window.location.href;
+			var sheetID = currentURL.split("/").pop();
+	    if (isNaN(BPMInput)){
+				alert("Must input a number for BPM");
+				return;
+			}
+			$.post(
+				'../sheets/' + sheetID + '/updateBPM',
+				{ bpm: BPMInput }
+			).done(function(response) {
+				$('.error').text("");
+				location.reload();
+			}).fail(function(responseObject) {
+				var response = $.parseJSON(responseObject.responseText);
+				$('.error').text(response.err);
+			});
+	  });
+
+
 	/**
 		On play button click, call the controller to fetch the MIDI string and begin playing it.
 		Sets the tempo to the input value provided and checks to make sure it is indeed a number.

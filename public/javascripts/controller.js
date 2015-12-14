@@ -9,7 +9,7 @@ var Controller = function () {
 	var that = Object.create(Controller.prototype);
 
 	var SHEET_WIDTH = 36;
-	var SHEET_HEIGHT = 208;
+	// var SHEET_HEIGHT = 224;
 	var NUMBER_OF_NOTES_IN_OCTAVE = 12;
 
 	that.dimX = null;
@@ -28,21 +28,22 @@ var Controller = function () {
 		Initializes the model.
 	*/
 	var init = function () {
-		sheetData = null
+		sheet_height = null;
 		socket = io.connect('/');
 		socket.emit('request_sheet', { sheetID: sheetID });
 		socket.emit('join_sheet', { sheetID: sheetID });
 		socket.on('supply_sheet', function (data) {
 		    noteData = [];
-		    for (var i = data.length - 1; i >= 0; i--) {
-		    	noteData.push([keyToCoord(data[i].pitch),data[i].time]);
+		    sheet_height = data.measures * 16;
+		    for (var i = data.notes.length - 1; i >= 0; i--) {
+		    	noteData.push([keyToCoord(data.notes[i].pitch),data.notes[i].time]);
 		    };
-		    that.setNewSheet(SHEET_WIDTH,SHEET_HEIGHT,noteData);
+		    that.setNewSheet(SHEET_WIDTH, sheet_height, noteData);
 		});
 		socket.on('note_update', function (data) {
 			recieveNoteUpdate(data);
 		});
-		model = SheetModel(SHEET_WIDTH,SHEET_HEIGHT,[]);
+		model = SheetModel(SHEET_WIDTH,sheet_height,[]);
 		that.dimX = model.dimX;
 		that.dimY = model.dimY;
 		model.addSubscriber(that.notifySubscribers);

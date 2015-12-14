@@ -154,7 +154,14 @@ io.on('connection', function (socket) {
       if (err) {
         console.log(err.message);
       } else {
-        socket.emit("supply_sheet", notes);
+        Sheet.getSheetInfo(data.sheetID, function (err, sheet) {
+          if (err) {
+            console.log(err.message);
+          } else {
+            data = {notes: notes, bpm: sheet.bpm, measures: sheet.measureCount}
+            socket.emit("supply_sheet", data);
+          };
+        });
       };
     });
   });

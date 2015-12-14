@@ -98,7 +98,7 @@ router.param('sheet', function(req, res, next, sheetId) {
 router.get('/:sheet', csrfProtection, function(req, res, next) {
   Sheet.getSheetInfo(req.sheetID, function(err, sheet) {
     if (sheet) {
-      res.render('composer', { csrfToken: req.cookies["_csrf"], 'creator': sheet.creator, 'collaborators': sheet.collaborators, 'currentUser': req.currentUser.username });
+      res.render('composer', { csrfToken: req.cookies["_csrf"], 'creator': sheet.creator, 'collaborators': sheet.collaborators, 'currentUser': req.currentUser.username, 'measures': sheet.measureCount, 'bpm': sheet.bpm  });
     }
   });
 });
@@ -140,6 +140,27 @@ router.post('/:sheet/addCollab', function(req, res) {
       }
     });
 });
+
+router.post('/:sheet/updateMeasures', function(req, res) {
+    Sheet.updateMeasureCount(req.body.mCount, req.sheetID, function(err) {
+      if (err) {
+        utils.sendErrResponse(res, 403, err.message);
+      } else {
+        utils.sendSuccessResponse(res);
+      }
+    });
+});
+
+router.post('/:sheet/updateBPM', function(req, res) {
+    Sheet.updateBPM(req.body.bpm, req.sheetID, function(err) {
+      if (err) {
+        utils.sendErrResponse(res, 403, err.message);
+      } else {
+        utils.sendSuccessResponse(res);
+      }
+    });
+});
+
 
 /*
   If the user is a collaborator on a sheet, only deletes the sheet from their access list.

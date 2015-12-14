@@ -34,10 +34,12 @@
 		<a href="../" id="libraryLink">Back to Library</a><br><br>
 		<button type="button" id="playButton" class="btn btn-info btn-lg">play</button><br><br>
 		<div id="form-group">
+			<label for="measure-count-input">Number of Measures:</label>
+	     	<input type="text" id="measure-count-input" value="<%=measures%>" class="form-control"/> <br>
 			<label for="playback-start-measure-input">Start Playback From Measure:</label>
 	     	<input type="text" id="playback-start-measure-input" value="1" class="form-control"/> <br>
 	     	<label for="BPM-input">Tempo (BPM):</label>
-	     	<input type="text" id="BPM-input" value="120" class="form-control"/> <br>
+	     	<input type="text" id="BPM-input" value="<%=bpm%>" class="form-control"/> <br>
 	    </div>
 	    <% if (creator===currentUser) { %>
 			<div id="addCollaborator">
